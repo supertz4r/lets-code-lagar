@@ -1,0 +1,28 @@
+Data:
+    24/02/1991
+
+3 Variedades de Azeitonas:
+    Galega
+    Cordovil
+    Picual
+
+5 Plantações de Azeitonas:
+    2 plantações de Galega com a distância de 4 segundos para o lagar.
+    2 plantações de Cordovil com a distância de 3 segundos para o lagar.
+    1 plantação de Picual com a distância de 2 segundos para o lagar.
+
+3 Capacidades de Recepção no lagar em simultâneo.
+
+Capacidade dos Caminhões de transporte:
+    Varia entre 4 até 16 toneladas de azeitonas.
+
+Configurações Gerais:
+    Cada plantação enche um caminhão entre 2 a 8 segundos.
+    Cada recepção demora entre 2 a 8 segundos para ser processada.
+    Sendo que 2 segundos corresponde a 4 toneladas.
+    Quando atingir 12 caminhões na fila em espera no Lagar, as plantações param de produzir.
+    Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações podem enviar mais.
+
+Finalização:
+    Com 2 minutos de execução geral as plantações fecham a sua produção.
+    O lagar continua recebendo os caminhões que estão na fila ou que estejam a caminho.
