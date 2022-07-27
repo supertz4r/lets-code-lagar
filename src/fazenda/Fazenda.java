@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import lagar.Lagar;
+import plantacao.Plantacao;
+
 public class Fazenda {
     private final List<String> azeitonas = List.of("Galega",
             "Cordovil",

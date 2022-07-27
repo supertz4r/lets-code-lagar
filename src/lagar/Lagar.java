@@ -1,8 +1,12 @@
+package lagar;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
-public class Lagar implements Callable<Boolean>{
+import caminhao.Caminhao;
+
+public class Lagar implements Callable<Boolean> {
 
     private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(12);
     private boolean isCapacidadeMaxima = false;
@@ -35,13 +39,14 @@ public class Lagar implements Callable<Boolean>{
     public double processaRecepcao() {
         try {
             Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
-            tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; //pois 2 segundos corresponde a 4 toneladas e podemos ter de 4 até 16 toneladas
+            tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; // pois 2 segundos corresponde a 4 toneladas e
+                                                                      // podemos ter de 4 até 16 toneladas
             isRecepcaoProcessada = true;
             isCapacidadeMaxima = false;
-            return tempoEspera;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return tempoEspera;
     }
 
     @Override

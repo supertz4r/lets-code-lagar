@@ -1,4 +1,8 @@
+package caminhao;
+
 import java.util.Random;
+
+import fazenda.Fazenda;
 
 public class Caminhao {
     private Fazenda fazenda;
