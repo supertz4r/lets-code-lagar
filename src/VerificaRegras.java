@@ -11,11 +11,25 @@ import java.util.regex.Pattern;
 
 public class VerificaRegras {
 
-    public static void main(String[] args) throws IOException {
+    private String dadosArquivo;
 
-    Path path = Paths.get("regras.txt");
-    String dados = new String(Files.readString(path));
-    // System.out.println(dados);
+    public String getDadosArquivo() {
+        return dadosArquivo;
+    }
+
+    public VerificaRegras(String nomeArquivo) throws IOException {
+        this.dadosArquivo = leArquivo(nomeArquivo);
+    }
+
+    private static String leArquivo(String nomeArquivo) throws IOException {
+        String dados;
+        Path path = Paths.get(nomeArquivo);
+        dados = new String(Files.readString(path));
+        return dados;
+    }
+
+    public static List<Map<String, String>> buscaPlantacoes(String dados) {
+
         final String regex = "(\\d{1,2})\\s[A-zçõã]+\\s[de]{1,2}\\s([A-z]+)\\s[A-z]+\\s[a]\\s[A-zâ]+\\s[a-z]+\\s(\\d{1,2})\\s[a-z]+";
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
@@ -23,10 +37,9 @@ public class VerificaRegras {
         List<Map<String, String>> variaveis = new ArrayList<>();
 
         while (matcher.find()) {
-            // System.out.println("Full match: " + matcher.group(0));
+
             Map<String, String> plantacao = new HashMap<>();
 
-            // System.out.println("group: " + matcher.group(0));
             for (int i = 1; i <= matcher.groupCount(); i++) {
                 String chave = " ";
                 if (i == 1) {
@@ -38,14 +51,12 @@ public class VerificaRegras {
                 if (i == 3) {
                     chave = "distancia";
                 }
-                // System.out.println("Group " + i + ": " + matcher.group(i));
                 plantacao.put(chave, matcher.group(i));
             }
 
             variaveis.add(plantacao);
         }
-
-        System.out.println(variaveis);
+        return variaveis;
     }
 
 }
