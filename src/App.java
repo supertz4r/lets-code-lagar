@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 
 public class App {
+
     public static void main(String[] args) throws Exception {
 
         VerificaRegras regras = new VerificaRegras("regras.txt");
@@ -28,4 +29,5 @@ public class App {
         }
 
     }
+
 }

@@ -59,3 +59,15 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Padrões de projeto.
 - Domínio de Stream, Lambdas, NIO, RegEx, Java Time e Threads.
 - Regras de negócio e lógica utiliza.
+
+# Estrutura de implementação
+
+- Lagar: 1 Thread
+- Plantações: Threads
+- Caminhões: Threads
+- Fazenda: Gerenciador
+
+# Perguntas
+
+- Só um caminhão é carregado por vez na plantação?
+-
