@@ -1,7 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class App {
     public static void main(String[] args) throws Exception {
 
@@ -19,6 +15,13 @@ public class App {
         Integer[] rangeRecepcao = new Integer[2];
         rangeRecepcao = regras.getRangeRecepcao(informacao);
         System.out.println("de " + rangeRecepcao[0] + " a " + rangeRecepcao[1] + "segundos");
+
+        System.out.println("getPlantacoes\n\t" + regras.getPlantacoes());
+        System.out.println("getCapacidadeRecepcaoLagar\n\t" + regras.getCapacidadeRecepcaoLagar());
+        System.out.print("getRangeCapacidadeCaminhao\n\t");
+        for (int i = 0; i < regras.getRangeCapacidadeCaminhao().length; i++) {
+            System.out.print(regras.getRangeCapacidadeCaminhao()[i] + " ");
+        }
 
     }
 }
