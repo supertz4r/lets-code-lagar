@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class VerificaRegras {
 
-    private String dadosArquivo;
+    private String dadosArquivo = "";
 
     public String getDadosArquivo() {
         return dadosArquivo;
@@ -21,19 +21,19 @@ public class VerificaRegras {
         this.dadosArquivo = leArquivo(nomeArquivo);
     }
 
-    private static String leArquivo(String nomeArquivo) throws IOException {
+    private String leArquivo(String nomeArquivo) throws IOException {
         String dados;
         Path path = Paths.get(nomeArquivo);
         dados = new String(Files.readString(path));
         return dados;
     }
 
-    public static List<Map<String, String>> buscaPlantacoes(String dados) {
+    public List<Map<String, String>> getPlantacoes() {
 
         final String regex = "(\\d{1,2})\\s[A-zçõã]+\\s[de]{1,2}\\s([A-z]+)\\s[A-z]+\\s[a]\\s[A-zâ]+\\s[a-z]+\\s(\\d{1,2})\\s[a-z]+";
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-        final Matcher matcher = pattern.matcher(dados);
+        final Matcher matcher = pattern.matcher(this.dadosArquivo);
         List<Map<String, String>> variaveis = new ArrayList<>();
 
         while (matcher.find()) {
@@ -57,6 +57,42 @@ public class VerificaRegras {
             variaveis.add(plantacao);
         }
         return variaveis;
+    }
+
+    public int getCapacidadeRecepcaoLagar() {
+
+        final String regex = "(\\d{1,2})\\s(Capacidades|Capacidade|capacidade|capacidades) de Recepção no lagar.+";
+
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(this.dadosArquivo);
+        int capacidadeRecepcaoLagar = 0;
+
+        while (matcher.find()) {
+
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                if (i == 1) {
+                    capacidadeRecepcaoLagar = Integer.parseInt(matcher.group(i));
+                }
+            }
+        }
+        return capacidadeRecepcaoLagar;
+    }
+
+    public int[] getRangeCapacidadeCaminhao() {
+
+        final String regex = "[A-z]+\\sentre\\s(\\d{1,})\\s[a-zé]+\\s(\\d{1,})\\s[A-z]+\\sde\\sazeitonas.";
+
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(dadosArquivo);
+
+        int[] rangeCapacidadeCaminhao = new int[1];
+        while (matcher.find()) {
+            rangeCapacidadeCaminhao = new int[matcher.groupCount()];
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                rangeCapacidadeCaminhao[i - 1] = Integer.parseInt(matcher.group(i));
+            }
+        }
+        return rangeCapacidadeCaminhao;
     }
 
 }
