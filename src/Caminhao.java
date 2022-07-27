@@ -1,8 +1,8 @@
 import java.util.Random;
 
 public class Caminhao {
-    Integer capacidade;
-    Boolean cheio;
+    private Integer capacidade;
+    private Boolean cheio;
 
     public Caminhao() {
         this.capacidade = new Random().ints(4, 16).findFirst().getAsInt();
@@ -10,11 +10,19 @@ public class Caminhao {
     }
 
     public void encher() {
-
+        this.cheio = true;
     }
 
-    public void esvaziar() {
+    public void descarregar() {
+        this.cheio = false;
+    }
 
+    public Boolean isCheio() {
+        return cheio;
+    }
+
+    public Integer getCapacidade() {
+        return capacidade;
     }
 
 }

@@ -1,10 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fazenda {
+    private final List<String> azeitonas = List.of("Galega",
+            "Cordovil",
+            "Picual");
     Double tempoEncherEsvaziarCaminhao;
     private static Fazenda fazenda;
+    private List<Plantacao> plantacoes = new ArrayList<>();
+    private Lagar lagar;
 
     private Fazenda() {
         criaPlantacoes();
-        criaLagar();
     }
 
     public static Fazenda getInstance() {
@@ -18,7 +25,4 @@ public class Fazenda {
 
     }
 
-    public void criaLagar() {
-
-    }
 }
