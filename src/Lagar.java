@@ -51,5 +51,3 @@ public class Lagar implements Callable<Boolean>{
         return true;
     }
 }
-
-
