@@ -7,11 +7,18 @@ public class App {
 
         VerificaRegras regras = new VerificaRegras("regras.txt");
         String informacao = regras.getDadosArquivo();
-        System.out.println("imprime regras: ");
-        System.out.println(informacao);
 
         List<Map<String, String>> dadosPlantacoes = new ArrayList<>();
-        dadosPlantacoes = regras.buscaPlantacoes(informacao);
+        dadosPlantacoes = regras.getDadosPlantacoes(informacao);
         System.out.println("imprime dados de plantacoes: " + dadosPlantacoes);
+
+        String data = regras.getDataArquivo(informacao);
+        System.out.println(data);
+        Integer[] rangeEnchimento = new Integer[2];
+        rangeEnchimento = regras.getRangeEnchimento(informacao);
+        Integer[] rangeRecepcao = new Integer[2];
+        rangeRecepcao = regras.getRangeRecepcao(informacao);
+        System.out.println("de " + rangeRecepcao[0] + " a " + rangeRecepcao[1] + "segundos");
+
     }
 }
