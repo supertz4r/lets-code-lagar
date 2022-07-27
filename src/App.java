@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class App {
     public static void main(String[] args) throws Exception {
 
@@ -5,15 +9,15 @@ public class App {
         String informacao = regras.getDadosArquivo();
 
         List<Map<String, String>> dadosPlantacoes = new ArrayList<>();
-        dadosPlantacoes = regras.getDadosPlantacoes(informacao);
+        dadosPlantacoes = regras.getPlantacoes();
         System.out.println("imprime dados de plantacoes: " + dadosPlantacoes);
 
-        String data = regras.getDataArquivo(informacao);
+        String data = regras.getDataArquivo();
         System.out.println(data);
         Integer[] rangeEnchimento = new Integer[2];
-        rangeEnchimento = regras.getRangeEnchimento(informacao);
+        rangeEnchimento = regras.getRangeEnchimentoSegundos();
         Integer[] rangeRecepcao = new Integer[2];
-        rangeRecepcao = regras.getRangeRecepcao(informacao);
+        rangeRecepcao = regras.getRangeRecepcao();
         System.out.println("de " + rangeRecepcao[0] + " a " + rangeRecepcao[1] + "segundos");
 
         System.out.println("getPlantacoes\n\t" + regras.getPlantacoes());

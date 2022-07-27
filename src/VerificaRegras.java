@@ -28,9 +28,9 @@ public class VerificaRegras {
         return dados;
     }
 
-    public String getDataArquivo(String dados) {
+    public String getDataArquivo() {
         final String regex = "\\d{2}/\\d{2}/\\d{4}";
-        final String string = dados;
+        final String string = this.dadosArquivo;
         String data = " ";
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
@@ -57,7 +57,7 @@ public class VerificaRegras {
             Map<String, String> plantacao = new HashMap<>();
 
             for (int i = 1; i <= matcher.groupCount(); i++) {
-                String chave = " ";
+                String chave = "";
                 if (i == 1) {
                     chave = "qtde";
                 }
@@ -76,10 +76,10 @@ public class VerificaRegras {
     }
 
     // Cada plantação enche um caminhão entre 2 a 8 segundos:
-    public Integer[] getRangeEnchimento(String dados) {
+    public Integer[] getRangeEnchimentoSegundos() {
         Integer[] range = new Integer[2];
         final String regex = "\\w[A-z]+\\s\\w[A-zãç]+\\s\\w[a-z]+\\s(\\d{1})+\\s[a]+\\s(\\d{1})";
-        final String string = dados;
+        final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(string);
@@ -93,10 +93,10 @@ public class VerificaRegras {
     }
 
     // Cada recepção demora entre 2 a 8 segundos para ser processada.
-    public Integer[] getRangeRecepcao(String dados) {
+    public Integer[] getRangeRecepcao() {
         Integer[] range = new Integer[2];
         final String regex = "\\w[A-z]+\\s\\w[recepção]+\\s\\w[a-z]+\\s[a-z]+\\s(\\d{1})\\s[a]\\s(\\d{1})\\s[segundos]+";
-        final String string = dados;
+        final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(string);
@@ -128,6 +128,7 @@ public class VerificaRegras {
         return capacidadeRecepcaoLagar;
     }
 
+    // Varia entre 4 até 16 toneladas de azeitonas.
     public int[] getRangeCapacidadeCaminhao() {
 
         final String regex = "[A-z]+\\sentre\\s(\\d{1,})\\s[a-zé]+\\s(\\d{1,})\\s[A-z]+\\sde\\sazeitonas.";
