@@ -37,6 +37,7 @@ public class Lagar implements Callable<Boolean>{
             Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
             tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; //pois 2 segundos corresponde a 4 toneladas e podemos ter de 4 até 16 toneladas
             isRecepcaoProcessada = true;
+            isCapacidadeMaxima = false;
             return tempoEspera;
         } catch (InterruptedException e) {
             e.printStackTrace();
