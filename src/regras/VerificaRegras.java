@@ -113,20 +113,19 @@ public class VerificaRegras implements RegrasLagar {
 
     @Override
     public int[] getRangeCapacidadeCaminhao() {
-
+        int[] range = new int[2];
         final String regex = "[A-z]+\\sentre\\s(\\d{1,})\\s[a-zé]+\\s(\\d{1,})\\s[A-z]+\\sde\\sazeitonas.";
+        final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-        final Matcher matcher = pattern.matcher(dadosArquivo);
+        final Matcher matcher = pattern.matcher(string);
 
-        int[] rangeCapacidadeCaminhao = new int[1];
         while (matcher.find()) {
-            rangeCapacidadeCaminhao = new int[matcher.groupCount()];
             for (int i = 1; i <= matcher.groupCount(); i++) {
-                rangeCapacidadeCaminhao[i - 1] = Integer.parseInt(matcher.group(i));
+                range[i - 1] = Integer.parseInt(matcher.group(i));
             }
         }
-        return rangeCapacidadeCaminhao;
+        return range;
     }
 
     @Override
