@@ -73,6 +73,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Perguntas
 
 - Só um caminhão é carregado por vez na plantação? Sim.
+- Existem infinitos caminhões?
 
 # Checklist da entrega
 
