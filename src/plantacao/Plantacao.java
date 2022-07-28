@@ -5,11 +5,13 @@ public class Plantacao implements Runnable {
     final private String nomePlantacao;
     final private String variedadePlantacao;
     final private Integer distanciaLagarSegundos;
+    final private long inicioProducao;
 
     private Plantacao(Builder builder) {
         this.nomePlantacao = builder.nomePlantacao;
         this.variedadePlantacao = builder.variedadePlantacao;
         this.distanciaLagarSegundos = builder.distanciaLagarSegundos;
+        this.inicioProducao = System.currentTimeMillis();
     }
 
     public static class Builder {
@@ -59,8 +61,9 @@ public class Plantacao implements Runnable {
         int min = 2;
         int range = (max - min) + 1;
         int sleepTime;
+        long tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
-        while (i <= 10) {
+        while (tempoProducaoMinutos < 2) {
 
             sleepTime = (int) ((Math.random() * range) + min);
 
@@ -74,6 +77,8 @@ public class Plantacao implements Runnable {
             }
 
             i++;
+
+            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
         }
 

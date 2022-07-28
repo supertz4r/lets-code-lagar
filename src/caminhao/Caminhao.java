@@ -42,6 +42,10 @@ public class Caminhao {
 
     }
 
+    public Fazenda getFazenda() {
+        return fazenda;
+    }
+
     public void encher() {
         this.cheio = true;
     }
