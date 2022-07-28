@@ -51,6 +51,16 @@ public class VerificaRegras {
         return data;
     }
 
+    public List<String> getAzeitonas() throws IOException {
+        List<String> azeitonas = new ArrayList<>();
+
+        getPlantacoes().stream()
+                .map((l) -> l.get("azeitona").toUpperCase())
+                .forEach((azeitona) -> azeitonas.add(azeitona));
+
+        return azeitonas;
+    }
+
     // 5 Plantações de Azeitonas:
 
     public List<Map<String, String>> getPlantacoes() {

@@ -12,7 +12,7 @@ import regras.VerificaRegras;
 public class VerificaRegrasTeste {
 
     public static void main(String[] args) throws Exception {
-        // File resourceFile = new File("lets-code-lagar/src/input");
+        File resourceFile = new File("lets-code-lagar/src/input");
         VerificaRegras regras = new VerificaRegras("regras.txt");
         String informacao = regras.getDadosArquivo();
 
