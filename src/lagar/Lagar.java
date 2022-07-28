@@ -51,8 +51,9 @@ public class Lagar implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
+        isRecepcaoProcessada = false;
         long tempoEsperaEmMilis = (long) processaRecepcao() * 1000;
         Thread.sleep(tempoEsperaEmMilis);
-        return true;
+        return isRecepcaoProcessada;
     }
 }
