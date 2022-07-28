@@ -63,11 +63,39 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Estrutura de implementação
 
 - Lagar: 1 Thread
-- Plantações: Threads
+- Plantações:
+
+* Executam por 2 minutos:
+
 - Caminhões: Threads
 - Fazenda: Gerenciador
 
 # Perguntas
 
-- Só um caminhão é carregado por vez na plantação?
--
+- Só um caminhão é carregado por vez na plantação? Sim.
+
+# Checklist da entrega
+
+- Padrões de projeto:
+
+* Singleton: Fazenda
+* Builder: Plantacoes
+
+- Modelagem OO:
+
+* Packages
+* Interfaces
+* Herança
+* Polimorfismo
+
+- Streams:
+
+- Lambdas:
+
+- NIO:
+
+- Regex:
+
+- JavaTime:
+
+- Threads:
