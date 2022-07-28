@@ -1,6 +1,7 @@
 package teste;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import regras.VerificaRegras;
 public class VerificaRegrasTeste {
 
     public static void main(String[] args) throws Exception {
-        File resourceFile = new File("lets-code-lagar/src/input");
+        File resourceFile = new File("src/input");
         VerificaRegras regras = new VerificaRegras(resourceFile.getAbsolutePath() + "/regras.txt");
         String informacao = regras.getDadosArquivo();
 
@@ -18,7 +19,7 @@ public class VerificaRegrasTeste {
         dadosPlantacoes = regras.getPlantacoes();
         System.out.println("imprime dados de plantacoes: " + dadosPlantacoes);
 
-        String data = regras.getDataArquivo();
+        LocalDate data = regras.getDataArquivo();
         System.out.println(data);
         Integer[] rangeEnchimento = new Integer[2];
         rangeEnchimento = regras.getRangeEnchimentoSegundos();
