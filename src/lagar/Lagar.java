@@ -1,6 +1,10 @@
+package lagar;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+
+import caminhao.Caminhao;
 
 public class Lagar implements Callable<Boolean> {
 
