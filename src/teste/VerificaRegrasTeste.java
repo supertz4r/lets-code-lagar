@@ -12,8 +12,8 @@ import regras.VerificaRegras;
 public class VerificaRegrasTeste {
 
     public static void main(String[] args) throws Exception {
-        File resourceFile = new File("lets-code-lagar/src/input");
-        VerificaRegras regras = new VerificaRegras("regras.txt");
+        File resourceFile = new File("src/input");
+        VerificaRegras regras = new VerificaRegras(resourceFile.getAbsolutePath() + "/regras.txt");
         String informacao = regras.getDadosArquivo();
 
         List<Map<String, String>> dadosPlantacoes = new ArrayList<>();
@@ -37,9 +37,9 @@ public class VerificaRegrasTeste {
         System.out.println("qtde maxima de caminhoes que podem ficar em fila: " +
                 regras.getMaxCaminhoesNaFila());
 
-        // Map<String, Integer> tempoXToneladas = new HashMap<>();
-        // tempoXToneladas = regras.getTempoXToneladas();
-        // System.out.println(tempoXToneladas);
+        Map<String, Integer> tempoXToneladas = new HashMap<>();
+        tempoXToneladas = regras.getTempoXToneladas();
+        System.out.println(tempoXToneladas);
 
         System.out.println("Quando o lagar voltar a atingir " + regras.getMinCaminhoesNaFila()
                 + " caminhoes em espera ,as plantacoes podem voltar a produzir ");

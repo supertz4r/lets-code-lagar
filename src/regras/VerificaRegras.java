@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class VerificaRegras {
+public class VerificaRegras implements DadosColhidos {
 
     private String dadosArquivo = "";
 
@@ -51,7 +51,7 @@ public class VerificaRegras {
         return data;
     }
 
-    public List<String> getAzeitonas() throws IOException {
+    public List<String> getAzeitonas() {
         List<String> azeitonas = new ArrayList<>();
 
         getPlantacoes().stream()
@@ -181,29 +181,27 @@ public class VerificaRegras {
     }
 
     // Sendo que 2 segundos corresponde a 4 toneladas.
-    // public Map<String, Integer> getTempoXToneladas() {
-    // Map<String, Integer> tempoXToneladas = new HashMap<>();
+    public Map<String, Integer> getTempoXToneladas() {
 
-    // final String regex =
-    // "(\\d{1})\\s+[segundos]+\\s[a-z]+\\s[a]\\s(\\d{1})\\s+[toneladas]+";
-    // final String string = this.dadosArquivo;
+        Map<String, Integer> tempoXToneladas = new HashMap<>();
+        String segundos = "tempo";
+        String toneladas = "toneladas";
 
-    // final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-    // final Matcher matcher = pattern.matcher(string);
+        final String regex = "(?<" + segundos + ">\\d)\\ssegundos\\s[a-z]+\\sa\\s(?<" + toneladas + ">\\d)\\stoneladas?";
+        final String string = this.dadosArquivo;
 
-    // for (int i = 1; i <= matcher.groupCount(); i++) {
-    // String chave = "";
-    // if (i == 1) {
-    // chave = "tempo";
-    // }
-    // if (i == 2) {
-    // chave = "toneladas";
-    // }
-    // tempoXToneladas.put(chave, Integer.parseInt(matcher.group(i)));
-    // }
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(string);
 
-    // return tempoXToneladas;
-    // }
+        while (matcher.find()) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                tempoXToneladas.put(segundos, Integer.parseInt(matcher.group(segundos)));
+                tempoXToneladas.put(toneladas, Integer.parseInt(matcher.group(toneladas)));
+            }
+        }
+
+        return tempoXToneladas;
+    }
 
     // Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações
     // podem enviar mais.
