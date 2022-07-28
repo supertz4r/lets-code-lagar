@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class VerificaRegras implements DadosColhidos {
+public class VerificaRegras implements RegrasLagar {
 
     private String dadosArquivo = "";
 
@@ -29,7 +29,8 @@ public class VerificaRegras implements DadosColhidos {
         }
     }
 
-    private String leArquivo(String nomeArquivo) throws IOException {
+    @Override
+    public String leArquivo(String nomeArquivo) throws IOException {
         String dados;
         Path path = Paths.get(nomeArquivo);
         dados = Files.readString(path);
@@ -62,7 +63,7 @@ public class VerificaRegras implements DadosColhidos {
     }
 
     // 5 Plantações de Azeitonas:
-
+    @Override
     public List<Map<String, String>> getPlantacoes() {
 
         final String chaveQuantidade = "qtde";
@@ -92,6 +93,7 @@ public class VerificaRegras implements DadosColhidos {
     }
 
     // Cada plantação enche um caminhão entre 2 a 8 segundos:
+    @Override
     public Integer[] getRangeEnchimentoSegundos() {
         Integer[] range = new Integer[2];
         final String regex = "\\w[A-z]+\\s\\w[A-zãç]+\\s\\w[a-z]+\\s(\\d{1})+\\sa+\\s(\\d)";
@@ -109,6 +111,7 @@ public class VerificaRegras implements DadosColhidos {
     }
 
     // Cada recepção demora entre 2 a 8 segundos para ser processada.
+    @Override
     public Integer[] getRangeRecepcao() {
         Integer[] range = new Integer[2];
         final String regex = "\\w[A-z]+\\s\\w[recepção]+\\s\\w[a-z]+\\s[a-z]+\\s(\\d)\\sa\\s(\\d)\\s[segundos]+";
@@ -125,6 +128,7 @@ public class VerificaRegras implements DadosColhidos {
         return range;
     }
 
+    @Override
     public int getCapacidadeRecepcaoLagar() {
 
         final String regex = "(\\d{1,2})\\s(Capacidades|Capacidade|capacidade|capacidades) de Recepção no lagar.+";
@@ -145,6 +149,7 @@ public class VerificaRegras implements DadosColhidos {
     }
 
     // Varia entre 4 até 16 toneladas de azeitonas.
+    @Override
     public int[] getRangeCapacidadeCaminhao() {
 
         final String regex = "[A-z]+\\sentre\\s(\\d{1,})\\s[a-zé]+\\s(\\d{1,})\\s[A-z]+\\sde\\sazeitonas.";
@@ -165,6 +170,7 @@ public class VerificaRegras implements DadosColhidos {
 
     // Quando atingir 12 caminhões na fila em espera no Lagar, as plantações param
     // de produzir.
+    @Override
     public Integer getMaxCaminhoesNaFila() {
         int maximo = 0;
         final String regex = "(\\d{1,2})\\s[caminhõoes]+\\s[na]+\\s[fila]+";
@@ -205,6 +211,7 @@ public class VerificaRegras implements DadosColhidos {
 
     // Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações
     // podem enviar mais.
+    @Override
     public Integer getMinCaminhoesNaFila() {
         int minimo = 0;
         final String regex = "(\\d{1,2})\\s[caminhõoes]+\\s[em]+\\s[espera]+";
@@ -220,6 +227,7 @@ public class VerificaRegras implements DadosColhidos {
     }
 
     // Com 2 minutos de execução geral as plantações fecham a sua produção.
+    @Override
     public Integer getTempoExecucaoGeralMax() {
         int tempo = 0;
         final String regex = "(\\d{1,2})\\s[minutos]+\\s[de]+\\s[execucçãao]+\\s[geral]+";
