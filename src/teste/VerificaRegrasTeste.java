@@ -1,6 +1,7 @@
 package teste;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class VerificaRegrasTeste {
         dadosPlantacoes = regras.getPlantacoes();
         System.out.println("imprime dados de plantacoes: " + dadosPlantacoes);
 
-        String data = regras.getDataArquivo();
+        LocalDate data = regras.getDataArquivo();
         System.out.println(data);
         Integer[] rangeEnchimento = new Integer[2];
         rangeEnchimento = regras.getRangeEnchimentoSegundos();

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,35 +22,45 @@ public class VerificaRegras {
     }
 
     public VerificaRegras(String nomeArquivo) throws IOException {
-        this.dadosArquivo = leArquivo(nomeArquivo);
+        try {
+            this.dadosArquivo = leArquivo(nomeArquivo);
+        } catch (IOException exception) {
+            System.out.println("Erro ao buscar o arquivo: " + exception.getMessage());
+        }
     }
 
     private String leArquivo(String nomeArquivo) throws IOException {
         String dados;
         Path path = Paths.get(nomeArquivo);
-        dados = new String(Files.readString(path));
+        dados = Files.readString(path);
         return dados;
     }
 
-    public String getDataArquivo() {
+    public LocalDate getDataArquivo() {
         final String regex = "\\d{2}/\\d{2}/\\d{4}";
         final String string = this.dadosArquivo;
-        String data = " ";
+        LocalDate data = LocalDate.now(); // se não encontrar, volta a data de hoje
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(string);
 
         while (matcher.find()) {
-            data = matcher.group(0);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            data = LocalDate.parse(matcher.group(0).trim(), dateTimeFormatter);
         }
-        return data;// fazer tratamento qdo não achar nada.
+        return data;
     }
 
     // 5 Plantações de Azeitonas:
 
     public List<Map<String, String>> getPlantacoes() {
 
-        final String regex = "(\\d{1,2})\\s[A-zçõã]+\\s[de]{1,2}\\s([A-z]+)\\s[A-z]+\\s[a]\\s[A-zâ]+\\s[a-z]+\\s(\\d{1,2})\\s[a-z]+";
+        final String chaveQuantidade = "qtde";
+        final String chaveAzeitona = "azeitona";
+        final String chaveDistancia = "distancia";
+
+        final String regex = "(?<" + chaveQuantidade + ">\\d{1,2})\\s[A-zçõã]+\\s[de]{1,2}\\s(?<" + chaveAzeitona
+                + ">[A-z]+)\\s[A-z]+\\sa\\s[A-zâ]+\\s[a-z]+\\s(?<" + chaveDistancia + ">\\d{1,2})\\s[a-z]+";
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(this.dadosArquivo);
@@ -59,17 +71,9 @@ public class VerificaRegras {
             Map<String, String> plantacao = new HashMap<>();
 
             for (int i = 1; i <= matcher.groupCount(); i++) {
-                String chave = "";
-                if (i == 1) {
-                    chave = "qtde";
-                }
-                if (i == 2) {
-                    chave = "azeitona";
-                }
-                if (i == 3) {
-                    chave = "distancia";
-                }
-                plantacao.put(chave, matcher.group(i));
+                plantacao.put(chaveQuantidade, matcher.group(chaveQuantidade));
+                plantacao.put(chaveAzeitona, matcher.group(chaveAzeitona));
+                plantacao.put(chaveDistancia, matcher.group(chaveDistancia));
             }
 
             variaveis.add(plantacao);
@@ -80,7 +84,7 @@ public class VerificaRegras {
     // Cada plantação enche um caminhão entre 2 a 8 segundos:
     public Integer[] getRangeEnchimentoSegundos() {
         Integer[] range = new Integer[2];
-        final String regex = "\\w[A-z]+\\s\\w[A-zãç]+\\s\\w[a-z]+\\s(\\d{1})+\\s[a]+\\s(\\d{1})";
+        final String regex = "\\w[A-z]+\\s\\w[A-zãç]+\\s\\w[a-z]+\\s(\\d{1})+\\sa+\\s(\\d)";
         final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
@@ -97,7 +101,7 @@ public class VerificaRegras {
     // Cada recepção demora entre 2 a 8 segundos para ser processada.
     public Integer[] getRangeRecepcao() {
         Integer[] range = new Integer[2];
-        final String regex = "\\w[A-z]+\\s\\w[recepção]+\\s\\w[a-z]+\\s[a-z]+\\s(\\d{1})\\s[a]\\s(\\d{1})\\s[segundos]+";
+        final String regex = "\\w[A-z]+\\s\\w[recepção]+\\s\\w[a-z]+\\s[a-z]+\\s(\\d)\\sa\\s(\\d)\\s[segundos]+";
         final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
