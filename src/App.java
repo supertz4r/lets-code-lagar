@@ -27,6 +27,8 @@ public class App {
         for (int i = 0; i < regras.getRangeCapacidadeCaminhao().length; i++) {
             System.out.print(regras.getRangeCapacidadeCaminhao()[i] + " ");
         }
+        System.out.println("qtde maxima de caminhoes que podem ficar em fila: " +
+                regras.getMaxCaminhoesNaFila());
 
     }
 
