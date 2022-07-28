@@ -162,15 +162,63 @@ public class VerificaRegras {
         while (matcher.find()) {
             maximo = Integer.parseInt(matcher.group(1));
         }
-        // while (matcher.find()) {
-        // System.out.println("Full match: " + matcher.group(0));
 
-        // for (int i = 1; i <= matcher.groupCount(); i++) {
-        // System.out.println("Group " + i + ": " + matcher.group(i));
-        // }
-
-        // }
         return maximo;
     }
+
     // Sendo que 2 segundos corresponde a 4 toneladas.
+    // public Map<String, Integer> getTempoXToneladas() {
+    // Map<String, Integer> tempoXToneladas = new HashMap<>();
+
+    // final String regex =
+    // "(\\d{1})\\s+[segundos]+\\s[a-z]+\\s[a]\\s(\\d{1})\\s+[toneladas]+";
+    // final String string = this.dadosArquivo;
+
+    // final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+    // final Matcher matcher = pattern.matcher(string);
+
+    // for (int i = 1; i <= matcher.groupCount(); i++) {
+    // String chave = "";
+    // if (i == 1) {
+    // chave = "tempo";
+    // }
+    // if (i == 2) {
+    // chave = "toneladas";
+    // }
+    // tempoXToneladas.put(chave, Integer.parseInt(matcher.group(i)));
+    // }
+
+    // return tempoXToneladas;
+    // }
+
+    // Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações
+    // podem enviar mais.
+    public Integer getMinCaminhoesNaFila() {
+        int minimo = 0;
+        final String regex = "(\\d{1,2})\\s[caminhõoes]+\\s[em]+\\s[espera]+";
+        final String string = this.dadosArquivo;
+
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(string);
+
+        while (matcher.find()) {
+            minimo = Integer.parseInt(matcher.group(1));
+        }
+        return minimo;
+    }
+
+    // Com 2 minutos de execução geral as plantações fecham a sua produção.
+    public Integer getTempoExecucaoGeralMax() {
+        int tempo = 0;
+        final String regex = "(\\d{1,2})\\s[minutos]+\\s[de]+\\s[execucçãao]+\\s[geral]+";
+        final String string = this.dadosArquivo;
+
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(string);
+
+        while (matcher.find()) {
+            tempo = Integer.parseInt(matcher.group(1));
+        }
+        return tempo;
+    }
 }
