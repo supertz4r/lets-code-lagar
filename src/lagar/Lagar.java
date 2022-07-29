@@ -8,12 +8,18 @@ import caminhao.Caminhao;
 
 public class Lagar implements Callable<Boolean> {
 
-    private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(12);
+    private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(3);
     private boolean isCapacidadeMaxima = false;
     private boolean isRecepcaoProcessada = false;
     private double tempoEspera;
+    private boolean processar;
+    private Integer emProcessamento = 0;
 
     public Lagar() {
+    }
+
+    public void setProcessar(boolean processar) {
+        this.processar = processar;
     }
 
     public boolean getIsCapacidadeMaxima() {
@@ -36,6 +42,18 @@ public class Lagar implements Callable<Boolean> {
         filaCaminhoes.add(caminhao);
     }
 
+    public void incrementaProcessamento() {
+        this.emProcessamento++;
+    }
+
+    public void decrementaProcessamento() {
+        this.emProcessamento--;
+    }
+
+    public static BlockingQueue<Caminhao> getFilaCaminhoes() {
+        return filaCaminhoes;
+    }
+
     public double processaRecepcao() {
         try {
             Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
@@ -51,8 +69,20 @@ public class Lagar implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-        long tempoEsperaEmMilis = (long) processaRecepcao() * 1000;
-        Thread.sleep(tempoEsperaEmMilis);
+
+        this.processar = true;
+
+        while (processar) {
+
+            if (emProcessamento <= 3 && !filaCaminhoes.isEmpty()) {
+
+                new Thread(new Processamento(filaCaminhoes, this)).start();
+                incrementaProcessamento();
+
+            }
+
+        }
+
         return true;
     }
 }

@@ -74,6 +74,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 
 - Só um caminhão é carregado por vez na plantação? Sim.
 - Existem infinitos caminhões?
+- O tempo de execução geral é contado a partir da criação da fazenda?
 
 # Checklist da entrega
 
