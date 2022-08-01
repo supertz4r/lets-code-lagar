@@ -1,34 +1,39 @@
 package lagar;
 
-import java.util.concurrent.BlockingQueue;
-
 import caminhao.Caminhao;
 
 public class Processamento implements Runnable {
 
-    private BlockingQueue<Caminhao> filaCaminhoes;
     private Lagar lagar;
 
-    public Processamento(BlockingQueue<Caminhao> filaCaminhoes, Lagar lagar) {
-        this.filaCaminhoes = filaCaminhoes;
+    public Processamento(Lagar lagar) {
         this.lagar = lagar;
     }
 
     @Override
     public void run() {
 
-        try {
-            Caminhao caminhao = filaCaminhoes.take();
-            // tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; // pois 2 segundos
-            // corresponde a 4 toneladas e
-            // // podemos ter de 4 até 16 toneladas
-            // isRecepcaoProcessada = true;
-            // isCapacidadeMaxima = false;
-            lagar.decrementaProcessamento();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Caminhao caminhao = lagar.processaCaminhao();
+        if (caminhao != null) {
+            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
+                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                    + " começou a descarregar!");
+            Integer tempoDescarregamento = caminhao.getCapacidade() / 2; // pois 2 segundos
 
+            try {
+                Thread.sleep(tempoDescarregamento * 1000);
+                caminhao.descarregar();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
+                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                    + " descarregou em " + tempoDescarregamento + " e foi liberado!");
+
+            lagar.setCapacidadeMaxima(false);
+        }
+        lagar.decrementaProcessamento();
     }
 
 }

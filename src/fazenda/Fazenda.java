@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lagar.Lagar;
+import lagar.Processamento;
 import plantacao.Plantacao;
 
 public class Fazenda {
@@ -13,14 +14,12 @@ public class Fazenda {
     private static Fazenda fazenda;
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
-    private Lagar lagar;
+    private Lagar lagar = new Lagar();
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
 
     private Fazenda() {
-
-        this.lagar = new Lagar();
 
         // Automatizar essa parte com a extração de arquivos.
 
@@ -69,23 +68,31 @@ public class Fazenda {
 
     public void criaPlantacoes() {
 
+        // Threads de plantação.
         plantacoes.stream().forEach(plantacao -> {
             {
-                threads.add(new Thread(plantacao));
+                threads.add(new Thread(plantacao, "Plantação " + plantacao.getNomePlantacao()));
             }
         });
 
         long tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
+        // Inicialização das plantações.
         threads.stream().forEach(thread -> {
             {
                 thread.start();
             }
         });
 
+        // Execução da produção.
         while (tempoProducaoMinutos < 2) {
 
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+
+            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < 3) {
+                lagar.incrementaProcessamento();
+                new Thread(new Processamento(lagar), "Processamento caminhão").start();
+            }
 
         }
 
@@ -94,6 +101,17 @@ public class Fazenda {
                 plantacao.setProduzir(false);
             }
         });
+
+        while (lagar.getTamanhoFila() != 0) {
+
+            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+
+            if (lagar.getEmProcessamento() < 3) {
+                lagar.incrementaProcessamento();
+                new Thread(new Processamento(lagar)).start();
+            }
+
+        }
 
     }
 

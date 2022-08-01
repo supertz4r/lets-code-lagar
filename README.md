@@ -65,10 +65,17 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Lagar: 1 Thread
 - Plantações:
 
-* Executam por 2 minutos:
+* Geram caminhões: OK
+* Enchem os caminhões (2 ton/seg): OK
+* Despacham os caminhões: OK
+* Requisitam fila para o processamento: OK
+* Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada:
+* Reiniciar as plantações quando a capacidade mínima da fila no lagar for alcançada:
 
 - Caminhões: Threads
-- Fazenda: Gerenciador
+- Fazenda (Gerenciador da plantação toda):
+
+* Executa por 2 minutos
 
 # Perguntas
 

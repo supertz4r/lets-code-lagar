@@ -1,5 +1,6 @@
 package plantacao;
 
+import caminhao.Caminhao;
 import lagar.Lagar;
 
 public class Plantacao implements Runnable {
@@ -14,6 +15,7 @@ public class Plantacao implements Runnable {
         this.nomePlantacao = builder.nomePlantacao;
         this.variedadePlantacao = builder.variedadePlantacao;
         this.distanciaLagarSegundos = builder.distanciaLagarSegundos;
+        this.lagar = builder.lagar;
         this.produzir = true;
     }
 
@@ -66,30 +68,58 @@ public class Plantacao implements Runnable {
         return distanciaLagarSegundos;
     }
 
+    public Lagar getLagar() {
+        return lagar;
+    }
+
     @Override
     public void run() {
 
         int i = 1;
         int max = 8;
         int min = 2;
-        int range = (max - min) + 1;
+        // int range = (max - min) + 1;
         int sleepTime;
         long tempoInicioProducao = System.currentTimeMillis();
 
         while (produzir) {
 
-            if (lagar.getFilaCaminhoes().size() != 3) {
+            if (lagar.getTamanhoFila() < 3) {
 
-                sleepTime = (int) ((Math.random() * range) + min);
+                // sleepTime = (int) ((Math.random() * range) + min);
 
-                System.out.println("Execução " + i + "/10 da plantação " + this.nomePlantacao + " com espera de "
-                        + sleepTime + " segundos.");
+                Caminhao caminhao = new Caminhao.Builder()
+                        .plantacao(this)
+                        .capacidade()
+                        .cheio(false)
+                        .build();
 
-                try {
-                    Thread.sleep(sleepTime * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleepTime = (caminhao.getCapacidade() / 2);
+
+                System.out
+                        .println("Execução nº " + i + " da plantação " + this.nomePlantacao + ". Enchendo caminhão de "
+                                + caminhao.getCapacidade() + " toneladas em " + sleepTime + " segundos.");
+
+                // Simula o carregamento do caminhão.
+                // try {
+                // Thread.sleep(sleepTime * 1000);
+                // caminhao.encher();
+                // } catch (InterruptedException e) {
+                // e.printStackTrace();
+                // }
+
+                System.out.println("Enviando caminhão de " + caminhao.getCapacidade()
+                        + " toneladas da plantação " + this.nomePlantacao + " para o Lagar. Tempo de viagem: "
+                        + getDistanciaLagarSegundos() + " segundos");
+
+                // Simula o transporte do caminhão.
+                // try {
+                // Thread.sleep(getDistanciaLagarSegundos() * 1000);
+                // } catch (InterruptedException e) {
+                // e.printStackTrace();
+                // }
+
+                lagar.enfileraCaminhao(new Caminhao.Builder().plantacao(this).capacidade().cheio(false).build());
 
                 i++;
 
@@ -98,7 +128,7 @@ public class Plantacao implements Runnable {
                 System.out.println("Plantação " + this.nomePlantacao + " em espera!");
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
