@@ -37,19 +37,19 @@ public class Fazenda {
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("C1")
                 .variedadePlantacao("Cordovil")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(3)
                 .lagar(lagar)
                 .build());
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("C2")
                 .variedadePlantacao("Cordovil")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(3)
                 .lagar(lagar)
                 .build());
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("P1")
                 .variedadePlantacao("Picual")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(2)
                 .lagar(lagar)
                 .build());
 
