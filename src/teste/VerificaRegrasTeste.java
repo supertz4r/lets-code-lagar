@@ -1,38 +1,42 @@
 package teste;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import regras.VerificaRegras;
 
 public class VerificaRegrasTeste {
 
     public static void main(String[] args) throws Exception {
-        File resourceFile = new File("lets-code-lagar/src/input");
+        File resourceFile = new File("src/input");
         VerificaRegras regras = new VerificaRegras(resourceFile.getAbsolutePath() + "/regras.txt");
-        String informacao = regras.getDadosArquivo();
 
-        List<Map<String, String>> dadosPlantacoes = new ArrayList<>();
-        dadosPlantacoes = regras.getPlantacoes();
-        System.out.println("imprime dados de plantacoes: " + dadosPlantacoes);
+        System.out.println(
 
-        String data = regras.getDataArquivo();
-        System.out.println(data);
-        Integer[] rangeEnchimento = new Integer[2];
-        rangeEnchimento = regras.getRangeEnchimentoSegundos();
-        Integer[] rangeRecepcao = new Integer[2];
-        rangeRecepcao = regras.getRangeRecepcao();
-        System.out.println("de " + rangeRecepcao[0] + " a " + rangeRecepcao[1] + "segundos");
+            "\n\ngetDadosArquivo -> " + regras.getDadosArquivo()+ 
 
-        System.out.println("getPlantacoes\n\t" + regras.getPlantacoes());
-        System.out.println("getCapacidadeRecepcaoLagar\n\t" + regras.getCapacidadeRecepcaoLagar());
-        System.out.print("getRangeCapacidadeCaminhao\n\t");
-        for (int i = 0; i < regras.getRangeCapacidadeCaminhao().length; i++) {
-            System.out.print(regras.getRangeCapacidadeCaminhao()[i] + " ");
-        }
+            "\n\ngetDataArquivo -> " + regras.getDataArquivo() + 
 
+            "\n\ngetAzeitonas -> " + regras.getAzeitonas() + 
+
+            "\n\ngetPlantacoes -> " + regras.getPlantacoes() + 
+
+            "\n\ngetCapacidadeRecepcaoLagar -> " + regras.getCapacidadeRecepcaoLagar() + 
+
+            "\n\ngetRangeCapacidadeCaminhao -> " + regras.getRangeCapacidadeCaminhao()[0] + " - " + regras.getRangeCapacidadeCaminhao()[1] + 
+
+            "\n\ngetRangeEnchimentoSegundos -> " + regras.getRangeEnchimentoSegundos()[0] + " - " + regras.getRangeEnchimentoSegundos()[1] + 
+
+            "\n\ngetRangeRecepcao -> " + regras.getRangeRecepcao()[0] + " - " + regras.getRangeCapacidadeCaminhao()[1] + 
+
+            "\n\ngetTempoXToneladas -> " + regras.getTempoXToneladas() + 
+
+            "\n\ngetMaxCaminhoesNaFila -> " + regras.getMaxCaminhoesNaFila() + 
+
+            "\n\ngetMinCaminhoesNaFila -> " + regras.getMinCaminhoesNaFila() + 
+
+            "\n\ngetTempoExecucaoGeralMax -> " + regras.getTempoExecucaoGeralMax()
+
+        );
     }
 
 }
