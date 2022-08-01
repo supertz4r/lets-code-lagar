@@ -89,9 +89,9 @@ public class Fazenda {
 
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
-            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < 3) {
+            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
                 lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar), "Processamento caminhão").start();
+                new Thread(new Processamento(lagar, lagar.getNumeroReceptora()), "Processamento caminhão").start();
             }
 
         }
@@ -105,9 +105,9 @@ public class Fazenda {
 
         while (lagar.getTamanhoFila() != 0) {
 
-            if (lagar.getEmProcessamento() < 3) {
+            if (lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
                 lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar)).start();
+                new Thread(new Processamento(lagar, lagar.getNumeroReceptora())).start();
             }
 
         }
