@@ -103,11 +103,7 @@ public class Fazenda {
             }
         });
 
-        // Processamento dos caminhões que estavam na fila após o encerramento da
-        // produção.
         while (lagar.getTamanhoFila() != 0) {
-
-            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
             if (lagar.getEmProcessamento() < 3) {
                 lagar.incrementaProcessamento();
@@ -115,7 +111,7 @@ public class Fazenda {
             }
 
         }
-
+        System.out.println("################## FIM DA SIMULAÇÃO ##################");
     }
 
 }

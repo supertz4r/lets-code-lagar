@@ -8,12 +8,9 @@ import java.util.List;
 
 public class Relatorio {
 
-    private String nomeDoRelatorio;
-    private String 
-
     private List<String> linhas = new ArrayList<>();
 
-        public  void adicionaLinha(String linha) {
+    public  void adicionaLinha(String linha) {
         this.linhas.add(linha);
     }
     
