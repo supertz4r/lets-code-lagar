@@ -5,19 +5,22 @@ import caminhao.Caminhao;
 public class Processamento implements Runnable {
 
     private Lagar lagar;
+    private Integer numeroRecepcao;
 
-    public Processamento(Lagar lagar) {
+    public Processamento(Lagar lagar, Integer numeroRecepcao) {
         this.lagar = lagar;
+        this.numeroRecepcao = numeroRecepcao;
     }
 
     @Override
     public void run() {
-
         Caminhao caminhao = lagar.processaCaminhao();
         if (caminhao != null) {
-            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
-                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
-                    + " começou a descarregar!");
+            System.out
+                    .println(
+                            "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " + caminhao.getCapacidade()
+                                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                                    + " começou a descarregar!");
             Integer tempoDescarregamento = caminhao.getCapacidade() / 2; // pois 2 segundos
 
             try {
@@ -33,6 +36,7 @@ public class Processamento implements Runnable {
 
             lagar.setCapacidadeMaxima(false);
         }
+        lagar.setRecepcao(numeroRecepcao);
         lagar.decrementaProcessamento();
     }
 

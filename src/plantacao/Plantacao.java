@@ -81,7 +81,7 @@ public class Plantacao implements Runnable {
 
         while (produzir) {
 
-            if (lagar.getTamanhoFila() < 3) {
+            if (lagar.getTamanhoFila() < lagar.getCapacidadeLagar()) {
 
                 Caminhao caminhao = new Caminhao.Builder()
                         .plantacao(this)

@@ -26,7 +26,10 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 
 # Estrutura de implementação
 
-- Lagar: 1 Thread
+- Lagar:
+
+* Controlar o número das receptoras: OK
+
 - Plantações:
 
 * Geram caminhões: OK
@@ -37,7 +40,10 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 * Reiniciar as plantações quando a capacidade mínima da fila no lagar for alcançada:
 * Apenas caminhões já despachados podem ser processados após o tempo de execução da produção:
 
-- Caminhões: Threads
+- Caminhões:
+
+* Fazer o trasnporte das azeitonas para o lagar: OK
+
 - Fazenda (Gerenciador da plantação toda):
 
 * Executa por 2 minutos
