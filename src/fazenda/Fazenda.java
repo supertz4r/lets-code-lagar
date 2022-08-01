@@ -4,18 +4,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lagar.Lagar;
+import lagar.Processamento;
 import plantacao.Plantacao;
 
 public class Fazenda {
-    private final List<String> azeitonas = List.of("Galega",
-            "Cordovil",
-            "Picual");
+
     Double tempoEncherEsvaziarCaminhao;
+    final private long inicioProducao;
     private static Fazenda fazenda;
     private List<Plantacao> plantacoes = new ArrayList<>();
-    private Lagar lagar;
+    private List<Thread> threads = new ArrayList<>();
+    private Lagar lagar = new Lagar();
+    // private final List<String> azeitonas = List.of("Galega",
+    // "Cordovil",
+    // "Picual");
 
     private Fazenda() {
+
+        // Automatizar essa parte com a extração de arquivos.
+
+        plantacoes.add(new Plantacao.Builder().nomePlantacao("G1")
+                .variedadePlantacao("Galega")
+                .distanciaLagarSegundos(4)
+                .lagar(lagar)
+                .build());
+
+        plantacoes.add(new Plantacao.Builder().nomePlantacao("G2")
+                .variedadePlantacao("Galega")
+                .distanciaLagarSegundos(4)
+                .lagar(lagar)
+                .build());
+
+        plantacoes.add(new Plantacao.Builder().nomePlantacao("C1")
+                .variedadePlantacao("Cordovil")
+                .distanciaLagarSegundos(4)
+                .lagar(lagar)
+                .build());
+
+        plantacoes.add(new Plantacao.Builder().nomePlantacao("C2")
+                .variedadePlantacao("Cordovil")
+                .distanciaLagarSegundos(4)
+                .lagar(lagar)
+                .build());
+
+        plantacoes.add(new Plantacao.Builder().nomePlantacao("P1")
+                .variedadePlantacao("Picual")
+                .distanciaLagarSegundos(4)
+                .lagar(lagar)
+                .build());
+
+        // =======================================================================
+        this.inicioProducao = System.currentTimeMillis();
+
         criaPlantacoes();
     }
 
@@ -27,6 +67,54 @@ public class Fazenda {
     }
 
     public void criaPlantacoes() {
+
+        // Threads de plantação.
+        plantacoes.stream().forEach(plantacao -> {
+            {
+                threads.add(new Thread(plantacao, "Plantação " + plantacao.getNomePlantacao()));
+            }
+        });
+
+        long tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+
+        // Inicialização das plantações.
+        threads.stream().forEach(thread -> {
+            {
+                thread.start();
+            }
+        });
+
+        // Execução da produção.
+        while (tempoProducaoMinutos < 2) {
+
+            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+
+            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < 3) {
+                lagar.incrementaProcessamento();
+                new Thread(new Processamento(lagar), "Processamento caminhão").start();
+            }
+
+        }
+
+        // Notificação para encerrar a produção.
+        plantacoes.stream().forEach(plantacao -> {
+            {
+                plantacao.setProduzir(false);
+            }
+        });
+
+        // Processamento dos caminhões que estavam na fila após o encerramento da
+        // produção.
+        while (lagar.getTamanhoFila() != 0) {
+
+            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+
+            if (lagar.getEmProcessamento() < 3) {
+                lagar.incrementaProcessamento();
+                new Thread(new Processamento(lagar)).start();
+            }
+
+        }
 
     }
 

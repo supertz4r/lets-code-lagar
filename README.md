@@ -1,40 +1,4 @@
-<h1 align="center"> Projeto Final do Módulo - Lagar </h1>
-<h4 align="center">Enunciado</h4>
-
-Crie uma aplicação que faça a gestão de transporte das plantações de azeitona até o lagar.
-
-A configuração da aplicação é com base na leitura e interpretação do arquivo de regras.txt:
-
-```
-Data:
-    24/02/1991
-
-3 Variedades de Azeitonas:
-    Galega
-    Cordovil
-    Picual
-
-5 Plantações de Azeitonas:
-    2 plantações de Galega com a distância de 4 segundos para o lagar.
-    2 plantações de Cordovil com a distância de 3 segundos para o lagar.
-    1 plantação de Picual com a distância de 2 segundos para o lagar.
-
-3 Capacidades de Recepção no lagar em simultâneo.
-
-Capacidade dos Caminhões de transporte:
-    Varia entre 4 até 16 toneladas de azeitonas.
-
-Configurações Gerais:
-    Cada plantação enche um caminhão entre 2 a 8 segundos.
-    Cada recepção demora entre 2 a 8 segundos para ser processada.
-    Sendo que 2 segundos corresponde a 4 toneladas.
-    Quando atingir 12 caminhões na fila em espera no Lagar, as plantações param de produzir.
-    Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações podem enviar mais.
-
-Finalização:
-    Com 2 minutos de execução geral as plantações fecham a sua produção.
-    O lagar continua recebendo os caminhões que estão na fila ou que estejam a caminho.
-```
+## Modelo de Relatório
 
 Durante o processo deve ir registrando no arquivo de relatório relatorio-1991.txt a seguinte informação:
 
@@ -63,11 +27,48 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Estrutura de implementação
 
 - Lagar: 1 Thread
-- Plantações: Threads
+- Plantações:
+
+* Geram caminhões: OK
+* Enchem os caminhões (2 ton/seg): OK
+* Despacham os caminhões: OK
+* Requisitam fila para o processamento: OK
+* Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada:
+* Reiniciar as plantações quando a capacidade mínima da fila no lagar for alcançada:
+
 - Caminhões: Threads
-- Fazenda: Gerenciador
+- Fazenda (Gerenciador da plantação toda):
+
+* Executa por 2 minutos
 
 # Perguntas
 
-- Só um caminhão é carregado por vez na plantação?
--
+- Só um caminhão é carregado por vez na plantação? Sim.
+- Existem infinitos caminhões?
+- O tempo de execução geral é contado a partir da criação da fazenda?
+
+# Checklist da entrega
+
+- Padrões de projeto:
+
+* Singleton: Fazenda
+* Builder: Plantacoes
+
+- Modelagem OO:
+
+* Packages
+* Interfaces
+* Herança
+* Polimorfismo
+
+- Streams:
+
+- Lambdas:
+
+- NIO:
+
+- Regex:
+
+- JavaTime:
+
+- Threads:
