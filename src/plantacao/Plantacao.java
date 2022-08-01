@@ -76,17 +76,12 @@ public class Plantacao implements Runnable {
     public void run() {
 
         int i = 1;
-        int max = 8;
-        int min = 2;
-        // int range = (max - min) + 1;
         int sleepTime;
         long tempoInicioProducao = System.currentTimeMillis();
 
         while (produzir) {
 
             if (lagar.getTamanhoFila() < 3) {
-
-                // sleepTime = (int) ((Math.random() * range) + min);
 
                 Caminhao caminhao = new Caminhao.Builder()
                         .plantacao(this)
@@ -101,23 +96,23 @@ public class Plantacao implements Runnable {
                                 + caminhao.getCapacidade() + " toneladas em " + sleepTime + " segundos.");
 
                 // Simula o carregamento do caminhão.
-                // try {
-                // Thread.sleep(sleepTime * 1000);
-                // caminhao.encher();
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
+                try {
+                    Thread.sleep(sleepTime * 1000);
+                    caminhao.encher();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 System.out.println("Enviando caminhão de " + caminhao.getCapacidade()
                         + " toneladas da plantação " + this.nomePlantacao + " para o Lagar. Tempo de viagem: "
                         + getDistanciaLagarSegundos() + " segundos");
 
                 // Simula o transporte do caminhão.
-                // try {
-                // Thread.sleep(getDistanciaLagarSegundos() * 1000);
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
+                try {
+                    Thread.sleep(getDistanciaLagarSegundos() * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 lagar.enfileraCaminhao(new Caminhao.Builder().plantacao(this).capacidade().cheio(false).build());
 

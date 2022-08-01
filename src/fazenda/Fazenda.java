@@ -96,12 +96,15 @@ public class Fazenda {
 
         }
 
+        // Notificação para encerrar a produção.
         plantacoes.stream().forEach(plantacao -> {
             {
                 plantacao.setProduzir(false);
             }
         });
 
+        // Processamento dos caminhões que estavam na fila após o encerramento da
+        // produção.
         while (lagar.getTamanhoFila() != 0) {
 
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
