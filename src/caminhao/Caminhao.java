@@ -2,27 +2,27 @@ package caminhao;
 
 import java.util.Random;
 
-import fazenda.Fazenda;
+import plantacao.Plantacao;
 
 public class Caminhao {
-    private Fazenda fazenda;
+    private Plantacao plantacao;
     private Integer capacidade;
     private Boolean cheio;
 
     public Caminhao(Builder builder) {
-        this.fazenda = builder.fazenda;
+        this.plantacao = builder.plantacao;
         this.capacidade = builder.capacidade;
         this.cheio = builder.cheio;
     }
 
     public static class Builder {
 
-        private Fazenda fazenda;
+        private Plantacao plantacao;
         private Integer capacidade;
         private Boolean cheio;
 
-        public Builder fazenda(Fazenda fazenda) {
-            this.fazenda = fazenda;
+        public Builder plantacao(Plantacao plantacao) {
+            this.plantacao = plantacao;
             return this;
         }
 
@@ -42,8 +42,8 @@ public class Caminhao {
 
     }
 
-    public Fazenda getFazenda() {
-        return fazenda;
+    public Plantacao getPlantacao() {
+        return plantacao;
     }
 
     public void encher() {
