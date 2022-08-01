@@ -37,19 +37,19 @@ public class Fazenda {
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("C1")
                 .variedadePlantacao("Cordovil")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(3)
                 .lagar(lagar)
                 .build());
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("C2")
                 .variedadePlantacao("Cordovil")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(3)
                 .lagar(lagar)
                 .build());
 
         plantacoes.add(new Plantacao.Builder().nomePlantacao("P1")
                 .variedadePlantacao("Picual")
-                .distanciaLagarSegundos(4)
+                .distanciaLagarSegundos(2)
                 .lagar(lagar)
                 .build());
 
@@ -103,11 +103,7 @@ public class Fazenda {
             }
         });
 
-        // Processamento dos caminhões que estavam na fila após o encerramento da
-        // produção.
         while (lagar.getTamanhoFila() != 0) {
-
-            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
             if (lagar.getEmProcessamento() < 3) {
                 lagar.incrementaProcessamento();
@@ -115,7 +111,7 @@ public class Fazenda {
             }
 
         }
-
+        System.out.println("################## FIM DA SIMULAÇÃO ##################");
     }
 
 }
