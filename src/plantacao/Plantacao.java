@@ -103,18 +103,20 @@ public class Plantacao implements Runnable {
                     e.printStackTrace();
                 }
 
-                System.out.println("Enviando caminhão de " + caminhao.getCapacidade()
-                        + " toneladas da plantação " + this.nomePlantacao + " para o Lagar. Tempo de viagem: "
-                        + getDistanciaLagarSegundos() + " segundos");
+                if (produzir) {
+                    System.out.println("Enviando caminhão de " + caminhao.getCapacidade()
+                            + " toneladas da plantação " + this.nomePlantacao + " para o Lagar. Tempo de viagem: "
+                            + getDistanciaLagarSegundos() + " segundos");
 
-                // Simula o transporte do caminhão.
-                try {
-                    Thread.sleep(getDistanciaLagarSegundos() * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    // Simula o transporte do caminhão.
+                    try {
+                        Thread.sleep(getDistanciaLagarSegundos() * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    lagar.enfileraCaminhao(new Caminhao.Builder().plantacao(this).capacidade().cheio(false).build());
                 }
-
-                lagar.enfileraCaminhao(new Caminhao.Builder().plantacao(this).capacidade().cheio(false).build());
 
                 i++;
 
@@ -137,7 +139,6 @@ public class Plantacao implements Runnable {
         System.out.println("Plantação " + nomePlantacao + " foi finalizada! Execução total: "
                 + ((tempoFimProducao - tempoInicioProducao) / 60000) + "m"
                 + (((tempoFimProducao - tempoInicioProducao) - 60000) / 120000) + "s");
-
     }
 
 }
