@@ -1,14 +1,11 @@
 package teste;
 
-import java.io.File;
-
 import regras.VerificaRegras;
 
 public class VerificaRegrasTeste {
 
     public static void main(String[] args) throws Exception {
-        File resourceFile = new File("src/input");
-        VerificaRegras regras = new VerificaRegras(resourceFile.getAbsolutePath() + "/regras.txt");
+        VerificaRegras regras = new VerificaRegras();
 
         System.out.println(
 
