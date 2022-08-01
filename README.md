@@ -35,6 +35,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 * Requisitam fila para o processamento: OK
 * Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada:
 * Reiniciar as plantações quando a capacidade mínima da fila no lagar for alcançada:
+* Apenas caminhões já despachados podem ser processados após o tempo de execução da produção:
 
 - Caminhões: Threads
 - Fazenda (Gerenciador da plantação toda):
