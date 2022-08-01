@@ -13,8 +13,48 @@ public class Lagar {
     private double tempoEspera;
     private Integer emProcessamento = 0;
 
-    public Lagar() {
+    public Lagar(Builder builder) {
+        Lagar.filaCaminhoes = Builder.filaCaminhoes;
+        this.isCapacidadeMaxima = builder.isCapacidadeMaxima;
+        this.isRecepcaoProcessada = builder.isRecepcaoProcessada;
+        this.tempoEspera = builder.tempoEspera;
+        this.emProcessamento = builder.emProcessamento;
     }
+
+    public static class Builder {
+
+        private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(3);
+        private boolean isCapacidadeMaxima = false;
+        private boolean isRecepcaoProcessada = false;
+        private double tempoEspera;
+        private Integer emProcessamento = 0;
+
+        public Builder filaCaminhoes() {
+            return this;
+        }
+
+        public Builder isCapacidadeMaxima() {
+            return this;
+        }
+
+        public Builder isRecepcaoProcessada() {
+            return this;
+        }
+
+        public Builder tempoEspera() {
+            return this;
+        }
+
+        public Builder emProcessamento() {
+            return this;
+        }
+
+        public Lagar build() {
+            return new Lagar(this);
+        }
+    }
+
+    //public Lagar(){}
 
     public synchronized void setCapacidadeMaxima(Boolean capacidadeMaximaEstado) {
         this.isCapacidadeMaxima = capacidadeMaximaEstado;
