@@ -13,12 +13,12 @@ public class Lagar {
     private BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(capacidadeLagar);
     private boolean isCapacidadeMaxima = false;
     private boolean isRecepcaoProcessada = false;
-    // private double tempoEspera;
+    private double tempoEspera;
     private Integer emProcessamento = 0;
     private Integer[] recepcao = new Integer[capacidadeRecepcaoLagar];
 
     public Lagar(Builder builder) {
-        Lagar.filaCaminhoes = Builder.filaCaminhoes;
+        this.filaCaminhoes = Builder.filaCaminhoes;
         this.isCapacidadeMaxima = builder.isCapacidadeMaxima;
         this.isRecepcaoProcessada = builder.isRecepcaoProcessada;
         this.tempoEspera = builder.tempoEspera;
@@ -85,7 +85,7 @@ public class Lagar {
         }
     }
 
-    //public Lagar(){}
+    // public Lagar(){}
 
     public synchronized void setCapacidadeMaxima(Boolean capacidadeMaximaEstado) {
         this.isCapacidadeMaxima = capacidadeMaximaEstado;
