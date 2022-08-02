@@ -1,10 +1,12 @@
 package regras;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +17,12 @@ import java.util.regex.Pattern;
 public class VerificaRegras implements RegrasLagar {
 
     private String dadosArquivo = "";
+    File resourceFile = new File("src/input");
+    private String caminhoInput = resourceFile.getAbsolutePath() + "/regras.txt";
 
-    public VerificaRegras(String nomeArquivo) throws IOException {
+    public VerificaRegras() {
         try {
-            this.dadosArquivo = leArquivo(nomeArquivo);
+            this.dadosArquivo = leArquivo(this.caminhoInput);
         } catch (IOException exception) {
             System.out.println("Erro ao buscar o arquivo: " + exception.getMessage());
         }
@@ -37,17 +41,18 @@ public class VerificaRegras implements RegrasLagar {
     }
 
     @Override
-    public String getDataArquivo() {
+    public LocalDate getDataArquivo() {
         final String regex = "\\d{2}/\\d{2}/\\d{4}";
         final String string = this.dadosArquivo;
-        String data = LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
-                + LocalDate.now().getYear();
+        LocalDate data = LocalDate.now();
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(string);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         while (matcher.find()) {
-            data = matcher.group(0).trim();
+            data = LocalDate.parse(matcher.group(0).trim(), formatter);
         }
         return data;
     }

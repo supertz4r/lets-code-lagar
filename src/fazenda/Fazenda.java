@@ -14,11 +14,12 @@ public class Fazenda {
     private static Fazenda fazenda;
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
-    private Lagar lagar = new Lagar();
+    private Lagar lagar = new Lagar.Builder().build();
+    private boolean todasPlantacoesFinalizadas = false;
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
-
+    
     private Fazenda() {
 
         // Automatizar essa parte com a extração de arquivos.
@@ -89,9 +90,9 @@ public class Fazenda {
 
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
-            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < 3) {
+            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
                 lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar), "Processamento caminhão").start();
+                new Thread(new Processamento(lagar, lagar.getNumeroReceptora()), "Processamento caminhão").start();
             }
 
         }
@@ -103,12 +104,22 @@ public class Fazenda {
             }
         });
 
-        while (lagar.getTamanhoFila() != 0) {
+        while (lagar.getTamanhoFila() != 0 || !this.todasPlantacoesFinalizadas) {
 
-            if (lagar.getEmProcessamento() < 3) {
+            threads.stream().forEach(thread -> {
+                {
+                    if (!thread.getState().name().equals("TERMINATED")) {
+                        this.todasPlantacoesFinalizadas = false;
+                    }
+                }
+            });
+
+            if (lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
                 lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar)).start();
+                new Thread(new Processamento(lagar, lagar.getNumeroReceptora())).start();
             }
+
+            this.todasPlantacoesFinalizadas = true;
 
         }
         System.out.println("################## FIM DA SIMULAÇÃO ##################");

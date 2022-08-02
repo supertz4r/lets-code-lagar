@@ -81,7 +81,7 @@ public class Plantacao implements Runnable {
 
         while (produzir) {
 
-            if (lagar.getTamanhoFila() < 3) {
+            if (lagar.getTamanhoFila() < lagar.getCapacidadeLagar()) {
 
                 Caminhao caminhao = new Caminhao.Builder()
                         .plantacao(this)
@@ -123,9 +123,9 @@ public class Plantacao implements Runnable {
             } else {
 
                 System.out.println("Plantação " + this.nomePlantacao + " em espera!");
-
+                // Esse bloco está 'parando' a produção da plantação.
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
