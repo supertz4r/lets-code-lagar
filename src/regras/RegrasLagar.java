@@ -1,5 +1,6 @@
 package regras;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public interface RegrasLagar {
     public String getDadosArquivo();
 
     //28/04/2022
-    public String getDataArquivo(); 
+    public LocalDate getDataArquivo(); 
 
     //Galega, Cordovil, Picual
     public List<String> getAzeitonas();
