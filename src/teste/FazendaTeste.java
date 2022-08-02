@@ -8,6 +8,8 @@ public class FazendaTeste {
 
         Fazenda trindade = Fazenda.getInstance();
 
+        System.out.println("TONELADAS ACUMULADAS NO LAGAR: " + trindade.getLagar().getToneladasRecebidas());
+
     }
 
 }

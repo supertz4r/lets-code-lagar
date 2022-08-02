@@ -13,19 +13,26 @@ public class Lagar {
     private BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(capacidadeLagar);
     private boolean isCapacidadeMaxima = false;
     private boolean isRecepcaoProcessada = false;
-    private double tempoEspera;
     private Integer emProcessamento = 0;
     private Integer[] recepcao = new Integer[capacidadeRecepcaoLagar];
+    private Integer toneladasRecebidas = 0;
 
     public Lagar(Builder builder) {
         this.filaCaminhoes = Builder.filaCaminhoes;
         this.isCapacidadeMaxima = builder.isCapacidadeMaxima;
         this.isRecepcaoProcessada = builder.isRecepcaoProcessada;
-        this.tempoEspera = builder.tempoEspera;
         this.emProcessamento = builder.emProcessamento;
         for (int i = 0; i < capacidadeRecepcaoLagar; i++) {
             recepcao[i] = 0;
         }
+    }
+
+    public synchronized void setToneladasRecebidas(Integer toneladasAdicionadas) {
+        this.toneladasRecebidas += toneladasAdicionadas;
+    }
+
+    public synchronized Integer getToneladasRecebidas() {
+        return this.toneladasRecebidas;
     }
 
     public synchronized Integer getNumeroReceptora() {
@@ -57,7 +64,6 @@ public class Lagar {
         private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(3);
         private boolean isCapacidadeMaxima = false;
         private boolean isRecepcaoProcessada = false;
-        private double tempoEspera;
         private Integer emProcessamento = 0;
 
         public Builder filaCaminhoes() {
@@ -69,10 +75,6 @@ public class Lagar {
         }
 
         public Builder isRecepcaoProcessada() {
-            return this;
-        }
-
-        public Builder tempoEspera() {
             return this;
         }
 

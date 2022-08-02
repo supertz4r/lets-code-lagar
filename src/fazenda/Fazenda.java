@@ -19,7 +19,7 @@ public class Fazenda {
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
-    
+
     private Fazenda() {
 
         // Automatizar essa parte com a extração de arquivos.
@@ -67,7 +67,11 @@ public class Fazenda {
         return fazenda;
     }
 
-    public void criaPlantacoes() {
+    public Lagar getLagar() {
+        return lagar;
+    }
+
+    private void criaPlantacoes() {
 
         // Threads de plantação.
         plantacoes.stream().forEach(plantacao -> {

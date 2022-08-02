@@ -30,6 +30,8 @@ public class Processamento implements Runnable {
                 e.printStackTrace();
             }
 
+            lagar.setToneladasRecebidas(caminhao.getCapacidade());
+
             System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
                     + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
                     + " descarregou em " + tempoDescarregamento + " e foi liberado!");
