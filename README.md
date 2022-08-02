@@ -29,6 +29,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Lagar:
 
 * Controlar o número das receptoras: OK
+* Controla o total de toneladas de azeitona já recebidas:
 
 - Plantações:
 
@@ -36,23 +37,26 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 * Enchem os caminhões (2 ton/seg): OK
 * Despacham os caminhões: OK
 * Requisitam fila para o processamento: OK
-* Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada:
-* Reiniciar as plantações quando a capacidade mínima da fila no lagar for alcançada:
-* Apenas caminhões já despachados podem ser processados após o tempo de execução da produção:
+* Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada: Mais ou Menos (as plantações não produzem, mas não aguardam propriamente em um wait e sim em um while-sleep)
+* Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada: OK
+* Apenas caminhões já despachados podem ser processados após o tempo de execução da produção: OK
 
 - Caminhões:
 
-* Fazer o trasnporte das azeitonas para o lagar: OK
+* Fazer o transporte das azeitonas para o lagar: OK
 
 - Fazenda (Gerenciador da plantação toda):
 
-* Executa por 2 minutos
+* Executa por 2 minutos: OK
+* Aciona o processamento de caminhões no lagar: OK
+* Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar: OK
 
 # Perguntas
 
 - Só um caminhão é carregado por vez na plantação? Sim.
 - Existem infinitos caminhões?
 - O tempo de execução geral é contado a partir da criação da fazenda?
+- A capacida de recepção no lagar é dinâmica (arquivo de configurações)?
 
 # Checklist da entrega
 

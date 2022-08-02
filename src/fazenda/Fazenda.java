@@ -15,6 +15,7 @@ public class Fazenda {
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
     private Lagar lagar = new Lagar();
+    private boolean todasPlantacoesFinalizadas = false;
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
@@ -103,12 +104,22 @@ public class Fazenda {
             }
         });
 
-        while (lagar.getTamanhoFila() != 0) {
+        while (lagar.getTamanhoFila() != 0 || !this.todasPlantacoesFinalizadas) {
+
+            threads.stream().forEach(thread -> {
+                {
+                    if (!thread.getState().name().equals("TERMINATED")) {
+                        this.todasPlantacoesFinalizadas = false;
+                    }
+                }
+            });
 
             if (lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
                 lagar.incrementaProcessamento();
                 new Thread(new Processamento(lagar, lagar.getNumeroReceptora())).start();
             }
+
+            this.todasPlantacoesFinalizadas = true;
 
         }
         System.out.println("################## FIM DA SIMULAÇÃO ##################");
