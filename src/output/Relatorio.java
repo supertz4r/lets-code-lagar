@@ -16,6 +16,7 @@ public class Relatorio {
     private String nomeRelatorio = "relatorio-yyyy.txt";
     private String modeloLinha = "horarioFinal - toneladasAcumuladas >> valorToneladas toneladas de tipoAzeitona na recepção numeroRecepcao de origem da plantação origemPlantacao com tempo total de totalDeSegundos segundos.";
 
+
     private List<String> linhas = new ArrayList<>();
 
     public Relatorio() {
