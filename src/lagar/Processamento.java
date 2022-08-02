@@ -5,20 +5,23 @@ import caminhao.Caminhao;
 public class Processamento implements Runnable {
 
     private Lagar lagar;
-    private Integer numeroRecepcao;
+    private Caminhao caminhao;
 
-    public Processamento(Lagar lagar, Integer numeroRecepcao) {
+    public Processamento(Lagar lagar, Caminhao caminhao) {
         this.lagar = lagar;
-        this.numeroRecepcao = numeroRecepcao;
+        this.caminhao = caminhao;
     }
 
     @Override
     public void run() {
-        Caminhao caminhao = lagar.processaCaminhao();
         if (caminhao != null) {
+            lagar.incrementaProcessamento();
+
+            int numeroRecepcao = lagar.getRecepcao().indexOf(caminhao) + 1;
             System.out
                     .println(
-                            "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " + caminhao.getCapacidade()
+                            "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " +
+                                    caminhao.getCapacidade()
                                     + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
                                     + " começou a descarregar!");
             Integer tempoDescarregamento = caminhao.getCapacidade() / 2; // pois 2 segundos
@@ -30,13 +33,14 @@ public class Processamento implements Runnable {
                 e.printStackTrace();
             }
 
-            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
+            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " +
+                    caminhao.getCapacidade()
                     + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
                     + " descarregou em " + tempoDescarregamento + " e foi liberado!");
 
             lagar.setCapacidadeMaxima(false);
         }
-        lagar.setRecepcao(numeroRecepcao);
+        // lagar.setRecepcao(numeroRecepcao);
         lagar.decrementaProcessamento();
     }
 
