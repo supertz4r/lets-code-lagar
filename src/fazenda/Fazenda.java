@@ -14,12 +14,12 @@ public class Fazenda {
     private static Fazenda fazenda;
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
-    private Lagar lagar = new Lagar();
+    private Lagar lagar = new Lagar.Builder().build();
     private boolean todasPlantacoesFinalizadas = false;
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
-
+    
     private Fazenda() {
 
         // Automatizar essa parte com a extração de arquivos.
