@@ -9,10 +9,11 @@ public class Lagar {
 
     private final Integer capacidadeLagar = 3;
     private final Integer capacidadeRecepcaoLagar = 3;
+    private final Integer capacidadeMinimaLagar = 1;
     private BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(capacidadeLagar);
     private boolean isCapacidadeMaxima = false;
     private boolean isRecepcaoProcessada = false;
-    private double tempoEspera;
+    // private double tempoEspera;
     private Integer emProcessamento = 0;
     private Integer[] recepcao = new Integer[capacidadeRecepcaoLagar];
 
@@ -38,13 +39,19 @@ public class Lagar {
 
     }
 
+    public synchronized Integer getCapacidadeMinimaLagar() {
+        return capacidadeMinimaLagar;
+    }
+
     public synchronized void setRecepcao(Integer posicao) {
         recepcao[posicao - 1] = 0;
     }
 
     public synchronized void setCapacidadeMaxima(Boolean capacidadeMaximaEstado) {
         this.isCapacidadeMaxima = capacidadeMaximaEstado;
-        this.notifyAll();
+        if (getTamanhoFila() <= getCapacidadeMinimaLagar()) {
+            this.notifyAll();
+        }
     }
 
     public synchronized boolean getIsCapacidadeMaxima() {
@@ -105,18 +112,19 @@ public class Lagar {
         return null;
     }
 
-    public double processaRecepcao() {
-        try {
-            Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
-            tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; // pois 2 segundos corresponde a 4 toneladas e
-                                                                      // podemos ter de 4 até 16 toneladas
-            isRecepcaoProcessada = true;
-            isCapacidadeMaxima = false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return tempoEspera;
-    }
+    // public double processaRecepcao() {
+    // try {
+    // Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
+    // tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; // pois 2 segundos
+    // corresponde a 4 toneladas e
+    // // podemos ter de 4 até 16 toneladas
+    // isRecepcaoProcessada = true;
+    // isCapacidadeMaxima = false;
+    // } catch (InterruptedException e) {
+    // e.printStackTrace();
+    // }
+    // return tempoEspera;
+    // }
 
     public Integer getCapacidadeLagar() {
         return capacidadeLagar;
