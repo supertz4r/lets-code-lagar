@@ -87,8 +87,6 @@ public class Lagar {
         }
     }
 
-    // public Lagar(){}
-
     public synchronized void setCapacidadeMaxima(Boolean capacidadeMaximaEstado) {
         this.isCapacidadeMaxima = capacidadeMaximaEstado;
         if (getTamanhoFila() <= getCapacidadeMinimaLagar()) {
@@ -153,20 +151,6 @@ public class Lagar {
         }
         return null;
     }
-
-    // public double processaRecepcao() {
-    // try {
-    // Caminhao primeiroCaminhaoDaFila = filaCaminhoes.take();
-    // tempoEspera = primeiroCaminhaoDaFila.getCapacidade() / 2; // pois 2 segundos
-    // corresponde a 4 toneladas e
-    // // podemos ter de 4 até 16 toneladas
-    // isRecepcaoProcessada = true;
-    // isCapacidadeMaxima = false;
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    // return tempoEspera;
-    // }
 
     public Integer getCapacidadeLagar() {
         return capacidadeLagar;
