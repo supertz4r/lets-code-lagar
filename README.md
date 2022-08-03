@@ -35,7 +35,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Lagar:
 
   - [x] Controlar o número das receptoras
-  - [ ] Controla o total de toneladas de azeitona já recebidas
+  - [x] Controla o total de toneladas de azeitona já recebidas
 
 - Plantações:
 
@@ -43,7 +43,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
   - [x] Enchem os caminhões (2 ton/seg)
   - [x] Despacham os caminhões
   - [x] Requisitam fila para o processamento
-  - [ ] Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada: Mais ou Menos (as plantações não produzem, mas não aguardam propriamente em um wait e sim em um while-sleep)
+  - [x] Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada
   - [x] Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada
   - [x] Apenas caminhões já despachados podem ser processados após o tempo de execução da produção
 
@@ -52,9 +52,15 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
   - [x] Fazer o transporte das azeitonas para o lagar
 
 - Fazenda (Gerenciador da plantação toda):
+
   - [x] Executa por 2 minutos
   - [x] Aciona o processamento de caminhões no lagar
   - [x] Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar
+
+- Configuração & Output:
+  - [x] Extração das variáveis de configuração do arquivo regras.txt
+  - [x] Configuração das vairiáveis com os valores extraídos do arquivo regras.txt
+  - [x] Escrita do relaório no arquivo de saída relatorio-XXXX.txt
 
 # Perguntas
 
@@ -68,18 +74,17 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Padrões de projeto:
 
   - Singleton: Fazenda
-  - Builder: Plantacoes
+  - Builder: Plantacao; Caminhao;
 
 - Modelagem OO:
 
   - Packages
   - Interfaces
-  - Herança
-  - Polimorfismo
 
 - Streams:
 
   - VerificaRegras -> getAzeitonas
+  - Fazenda -> criaPlantacoes
 
 - Lambdas:
 
@@ -100,3 +105,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
   - Relatorio -> adicionaLinha
 
 - Threads:
+
+  - syncronized
+  - wait
+  - notifyAll
