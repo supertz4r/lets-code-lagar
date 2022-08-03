@@ -1,0 +1,5 @@
+28/4
+
+13:50:24 - 0004 >> 4 toneladas de Galega na recepção 1 de origem da plantação 2 com tempo total de 8 segundos.
+13:50:24 - 0012 >> 8 toneladas de Picual na recepção 2 de origem da plantação 5 com tempo total de 6 segundos.
+13:50:24 - 0018 >> 6 toneladas de Cordovil na recepção 1 de origem da plantação 3 com tempo total de 6 segundos.

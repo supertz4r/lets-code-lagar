@@ -3,6 +3,8 @@ package lagar;
 import caminhao.Caminhao;
 import output.Relatorio;
 
+import java.util.Map;
+
 public class Processamento implements Runnable {
 
     private Lagar lagar;
@@ -21,13 +23,15 @@ public class Processamento implements Runnable {
             lagar.incrementaProcessamento();
 
             int numeroRecepcao = lagar.getRecepcao().indexOf(caminhao) + 1;
+            Map<String, Integer> tempoXToneladas = lagar.getRegras().getTempoXToneladas();
+            int ToneladasPorSegundo = tempoXToneladas.get("toneladas") / tempoXToneladas.get("tempo");
             System.out
                     .println(
                             "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " +
                                     caminhao.getCapacidade()
                                     + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
                                     + " começou a descarregar!");
-            Integer tempoDescarregamento = caminhao.getCapacidade() / 2; // pois 2 segundos
+            int tempoDescarregamento = caminhao.getCapacidade() / ToneladasPorSegundo;
 
             try {
                 Thread.sleep(tempoDescarregamento * 1000);
@@ -44,14 +48,13 @@ public class Processamento implements Runnable {
 
             relatorio.adicionaLinha(
                     caminhao.getCapacidade(), //valorToneladas
-                    caminhao.getPlantacao().getVariedadePlantacao(), //tipoAzeitona
+                    caminhao.getPlantacao().getVariedadePlantacao().toString(), //tipoAzeitona
                     numeroRecepcao, //numeroRecepcao
                     caminhao.getPlantacao().getNomePlantacao(), //origemPlantacao
                     tempoDescarregamento); //totalDeSegundos
 
             lagar.setCapacidadeMaxima(false);
         }
-        // lagar.setRecepcao(numeroRecepcao);
         lagar.decrementaProcessamento();
     }
 

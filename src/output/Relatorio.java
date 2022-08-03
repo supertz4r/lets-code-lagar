@@ -42,7 +42,7 @@ public class Relatorio {
 
     public void adicionaLinha(int valorToneladas, String tipoAzeitona, int numeroRecepcao, String origemPlantacao, int totalDeSegundos) {
         String modeloLinha = "horarioFinal - toneladasAcumuladas >> valorToneladas toneladas de tipoAzeitona na recepção numeroRecepcao de origem da plantação origemPlantacao com tempo total de totalDeSegundos segundos.";
-        
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String horarioFinal = new SimpleDateFormat("HH:mm:ss").format(timestamp.getTime());
 
@@ -65,7 +65,7 @@ public class Relatorio {
             Files.write(path, this.linhas);
 
             System.out.println("Relatorio criado\n\n");
-        
+
         } catch (IOException exception) {
             System.out.println("Não foi possível criar o relatório:");
             System.out.println(exception.getMessage());
