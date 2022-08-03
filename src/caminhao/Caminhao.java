@@ -3,20 +3,17 @@ package caminhao;
 import java.util.Random;
 
 import plantacao.Plantacao;
-import regras.RegrasLagar;
 import regras.VerificaRegras;
 
 public class Caminhao {
     private Plantacao plantacao;
     private Integer capacidade;
     private Boolean cheio;
-    private RegrasLagar regras;
 
     public Caminhao(Builder builder) {
         this.plantacao = builder.plantacao;
         this.capacidade = builder.capacidade;
         this.cheio = builder.cheio;
-        this.regras = builder.regras;
     }
 
     public static class Builder {

@@ -33,60 +33,70 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Estrutura de implementação
 
 - Lagar:
-  - [X] Controlar o número das receptoras
+
+  - [x] Controlar o número das receptoras
   - [ ] Controla o total de toneladas de azeitona já recebidas
 
 - Plantações:
-  - [X] Geram caminhões
-  - [X] Enchem os caminhões (2 ton/seg)
-  - [X] Despacham os caminhões
-  - [X] Requisitam fila para o processamento
+
+  - [x] Geram caminhões
+  - [x] Enchem os caminhões (2 ton/seg)
+  - [x] Despacham os caminhões
+  - [x] Requisitam fila para o processamento
   - [ ] Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada: Mais ou Menos (as plantações não produzem, mas não aguardam propriamente em um wait e sim em um while-sleep)
-  - [X] Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada
-  - [X] Apenas caminhões já despachados podem ser processados após o tempo de execução da produção
+  - [x] Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada
+  - [x] Apenas caminhões já despachados podem ser processados após o tempo de execução da produção
 
 - Caminhões:
-  - [X] Fazer o transporte das azeitonas para o lagar
+
+  - [x] Fazer o transporte das azeitonas para o lagar
 
 - Fazenda (Gerenciador da plantação toda):
-  - [X] Executa por 2 minutos
-  - [X] Aciona o processamento de caminhões no lagar
-  - [X] Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar
+  - [x] Executa por 2 minutos
+  - [x] Aciona o processamento de caminhões no lagar
+  - [x] Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar
 
 # Perguntas
 
 - Só um caminhão é carregado por vez na plantação? **Sim**
-- Existem infinitos caminhões?
-- O tempo de execução geral é contado a partir da criação da fazenda?
-- A capacida de recepção no lagar é dinâmica (arquivo de configurações)?
+- Existem infinitos caminhões? **Sim**
+- O tempo de execução geral é contado a partir da criação da fazenda? **Sim**
+- A capacida de recepção no lagar é dinâmica (arquivo de configurações)? **Sim**
 
 # Checklist da entrega
 
 - Padrões de projeto:
-  * Singleton: Fazenda
-  * Builder: Plantacoes
+
+  - Singleton: Fazenda
+  - Builder: Plantacoes
 
 - Modelagem OO:
-  * Packages
-  * Interfaces
-  * Herança
-  * Polimorfismo
+
+  - Packages
+  - Interfaces
+  - Herança
+  - Polimorfismo
 
 - Streams:
-  * VerificaRegras -> getAzeitonas 
+
+  - VerificaRegras -> getAzeitonas
 
 - Lambdas:
-  * VerificaRegras -> getAzeitonas 
+
+  - VerificaRegras -> getAzeitonas
 
 - NIO:
-  * VerificaRegras -> leArquivo 
-  * Relatorio -> escreveRelatorio 
 
-- Regex: 
-  * VerificaRegras
+  - VerificaRegras -> leArquivo
+  - Relatorio -> escreveRelatorio
+
+- Regex:
+
+  - VerificaRegras
 
 - JavaTime:
-  * VerificaRegras -> getDataArquivo 
-  * Relatorio -> adicionaLinha 
+
+  - VerificaRegras -> getDataArquivo
+  - Relatorio -> adicionaLinha
 
 - Threads:

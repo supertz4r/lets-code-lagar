@@ -36,7 +36,7 @@ public class Lagar implements Runnable {
         this.capacidadeRecepcaoLagar = builder.capacidadeRecepcaoLagar;
         this.capacidadeMinimaFilaLagar = builder.capacidadeMinimaFilaLagar;
         this.toneladasRecebidas = builder.toneladasRecebidas;
-        this.regras = builder.regras;
+        this.regras = Builder.regras;
         for (int i = 0; i < capacidadeRecepcaoLagar; i++) {
             recepcao.add(null);
         }
