@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,18 @@ public class Relatorio {
     }
 
     private void criaCabecalho() {
-        String data = String.valueOf(this.regras.getDataArquivo().getDayOfMonth()) + "/" 
-                        + String.valueOf(this.regras.getDataArquivo().getMonthValue());
+        LocalDate localDate = this.regras.getDataArquivo();
+        String dia = String.valueOf(localDate.getDayOfMonth());
+        String mes = String.valueOf(localDate.getMonthValue());
+        
+        if (dia.length() < 2) {
+            dia = 0 + dia;
+        }
+        if (mes.length() < 2) {
+            mes = 0 + mes;
+        }
+
+        String data = dia + "/" + mes;
         this.linhas.add(data);
         this.linhas.add("");
     }
@@ -49,12 +60,8 @@ public class Relatorio {
     }
     
     public void escreveRelatorio() throws IOException {
-        String nomeRelatorio = "relatorio-yyyy.txt";
-        String ano = String.valueOf(regras.getDataArquivo().getYear());
-        nomeRelatorio = nomeRelatorio.replace("yyyy", ano);
-
         try {
-            Path path = Path.of("src/output/" + nomeRelatorio);
+            Path path = Path.of("src/output/" + gerarNomeArquivo());
             Files.write(path, this.linhas);
 
             System.out.println("Relatorio criado\n\n");
@@ -64,8 +71,15 @@ public class Relatorio {
             System.out.println(exception.getMessage());
             System.out.println(exception.getStackTrace());
         }
-        
         this.linhas.clear();
+    }
+
+    public String gerarNomeArquivo() {
+        String nomeRelatorio = "relatorio-yyyy.txt";
+        String ano = String.valueOf(regras.getDataArquivo().getYear());
+        nomeRelatorio = nomeRelatorio.replace("yyyy", ano);
+
+        return nomeRelatorio;
     }
 
 }

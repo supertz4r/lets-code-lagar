@@ -1,4 +1,10 @@
-## Modelo de Relatório
+<h1 align="center"> Projeto Final do Módulo - Lagar </h1>
+<h4 align="center">
+Crie uma aplicação que faça a gestão de transporte das plantações de azeitona até o lagar.
+A configuração da aplicação é com base na leitura e interpretação do arquivo de regras.txt</h4>
+<br />
+
+# Modelo de Relatório
 
 Durante o processo deve ir registrando no arquivo de relatório relatorio-1991.txt a seguinte informação:
 
@@ -17,7 +23,7 @@ A data a considerar não será a de 24/02/1991, mas sim a data de 28/04/2022.
 
 Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras como no arquivo de relatório.
 
-## Quesitos de Avaliação
+# Quesitos de Avaliação
 
 - Modelagem Orientação a Objetos.
 - Padrões de projeto.
@@ -27,33 +33,29 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Estrutura de implementação
 
 - Lagar:
-
-* Controlar o número das receptoras: OK
-* Controla o total de toneladas de azeitona já recebidas:
+  - [X] Controlar o número das receptoras
+  - [ ] Controla o total de toneladas de azeitona já recebidas
 
 - Plantações:
-
-* Geram caminhões: OK
-* Enchem os caminhões (2 ton/seg): OK
-* Despacham os caminhões: OK
-* Requisitam fila para o processamento: OK
-* Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada: Mais ou Menos (as plantações não produzem, mas não aguardam propriamente em um wait e sim em um while-sleep)
-* Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada: OK
-* Apenas caminhões já despachados podem ser processados após o tempo de execução da produção: OK
+  - [X] Geram caminhões
+  - [X] Enchem os caminhões (2 ton/seg)
+  - [X] Despacham os caminhões
+  - [X] Requisitam fila para o processamento
+  - [ ] Paralizar as plantações quando a capacidade máxima da fila no lagar for alcançada: Mais ou Menos (as plantações não produzem, mas não aguardam propriamente em um wait e sim em um while-sleep)
+  - [X] Reiniciar a produção das plantações quando a capacidade mínima da fila no lagar for alcançada
+  - [X] Apenas caminhões já despachados podem ser processados após o tempo de execução da produção
 
 - Caminhões:
-
-* Fazer o transporte das azeitonas para o lagar: OK
+  - [X] Fazer o transporte das azeitonas para o lagar
 
 - Fazenda (Gerenciador da plantação toda):
-
-* Executa por 2 minutos: OK
-* Aciona o processamento de caminhões no lagar: OK
-* Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar: OK
+  - [X] Executa por 2 minutos
+  - [X] Aciona o processamento de caminhões no lagar
+  - [X] Espera o processamento de todos os caminhões, na fila ou em trânsito, antes de finalizar
 
 # Perguntas
 
-- Só um caminhão é carregado por vez na plantação? Sim.
+- Só um caminhão é carregado por vez na plantação? **Sim**
 - Existem infinitos caminhões?
 - O tempo de execução geral é contado a partir da criação da fazenda?
 - A capacida de recepção no lagar é dinâmica (arquivo de configurações)?
@@ -61,25 +63,30 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 # Checklist da entrega
 
 - Padrões de projeto:
-
-* Singleton: Fazenda
-* Builder: Plantacoes
+  * Singleton: Fazenda
+  * Builder: Plantacoes
 
 - Modelagem OO:
-
-* Packages
-* Interfaces
-* Herança
-* Polimorfismo
+  * Packages
+  * Interfaces
+  * Herança
+  * Polimorfismo
 
 - Streams:
+  * VerificaRegras -> getAzeitonas 
 
 - Lambdas:
+  * VerificaRegras -> getAzeitonas 
 
 - NIO:
+  * VerificaRegras -> leArquivo 
+  * Relatorio -> escreveRelatorio 
 
-- Regex:
+- Regex: 
+  * VerificaRegras
 
 - JavaTime:
+  * VerificaRegras -> getDataArquivo 
+  * Relatorio -> adicionaLinha 
 
 - Threads:
