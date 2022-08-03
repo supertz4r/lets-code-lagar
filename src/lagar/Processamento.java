@@ -48,7 +48,7 @@ public class Processamento implements Runnable {
 
             relatorio.adicionaLinha(
                     caminhao.getCapacidade(), //valorToneladas
-                    caminhao.getPlantacao().getVariedadePlantacao(), //tipoAzeitona
+                    caminhao.getPlantacao().getVariedadePlantacao().toString(), //tipoAzeitona
                     numeroRecepcao, //numeroRecepcao
                     caminhao.getPlantacao().getNomePlantacao(), //origemPlantacao
                     tempoDescarregamento); //totalDeSegundos
