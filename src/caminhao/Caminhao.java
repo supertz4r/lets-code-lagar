@@ -5,13 +5,14 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import plantacao.Plantacao;
+import regras.RegrasLagar;
 import regras.VerificaRegras;
 
 public class Caminhao {
     private Plantacao plantacao;
     private Integer capacidade;
     private Boolean cheio;
-    private  VerificaRegras regras;
+    private RegrasLagar regras;
 
     public Caminhao(Builder builder) {
         this.plantacao = builder.plantacao;
