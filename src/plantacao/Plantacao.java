@@ -98,7 +98,7 @@ public class Plantacao implements Runnable {
             } else {
 
                 System.out.println("Plantação " + this.nomePlantacao + " em espera!");
-                // Esse bloco está 'parando' a produção da plantação.
+                // Esse bloco está parando a produção da plantação.
                 synchronized (this) {
                     try {
                         this.wait();

@@ -8,8 +8,6 @@ import plantacao.Azeitonas;
 import plantacao.Plantacao;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class LagarTeste {
 
@@ -30,7 +28,7 @@ public class LagarTeste {
                 .cheio(false)
                 .build();
 
-//        testeUmCaminhao(lagar, c1, relatorio);
+        testeUmCaminhao(lagar, c1, relatorio);
 
         System.out.println("--- TESTE DO LAGAR COM 3 CAMINHÕES ---");
         Caminhao c2 = new Caminhao.Builder()
@@ -55,8 +53,8 @@ public class LagarTeste {
                 .cheio(false)
                 .build();
         List<Caminhao> caminhoes2 = List.of(c1, c2, c3, c4);
-        //Thread fica em espera indefinidamente
-//        testeMultiplosCaminhoes(lagar, caminhoes2);
+        // Thread fica em espera indefinidamente
+        testeMultiplosCaminhoes(lagar, caminhoes2, relatorio);
 
     }
 
