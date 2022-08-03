@@ -175,7 +175,8 @@ public class VerificaRegras implements RegrasLagar {
         String segundos = "tempo";
         String toneladas = "toneladas";
 
-        final String regex = "(?<" + segundos + ">\\d)\\ssegundos\\s[a-z]+\\sa\\s(?<" + toneladas + ">\\d)\\stoneladas?";
+        final String regex = "(?<" + segundos + ">\\d)\\ssegundos\\s[a-z]+\\sa\\s(?<" + toneladas
+                + ">\\d)\\stoneladas?";
         final String string = this.dadosArquivo;
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
@@ -190,7 +191,7 @@ public class VerificaRegras implements RegrasLagar {
 
         return tempoXToneladas;
     }
-    
+
     @Override
     public Integer getMaxCaminhoesNaFila() {
         int maximo = 0;

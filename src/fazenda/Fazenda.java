@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lagar.Lagar;
-import lagar.Processamento;
 import plantacao.Plantacao;
 
 public class Fazenda {
@@ -15,11 +14,15 @@ public class Fazenda {
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
     private Lagar lagar = new Lagar.Builder().build();
-    private boolean todasPlantacoesFinalizadas = false;
+    private static boolean todasPlantacoesFinalizadas = false;
+
     // private final List<String> azeitonas = List.of("Galega",
     // "Cordovil",
     // "Picual");
-    
+    public static boolean isTodasPlantacoesFinalizadas() {
+        return todasPlantacoesFinalizadas;
+    }
+
     private Fazenda() {
 
         // Automatizar essa parte com a extração de arquivos.
@@ -67,6 +70,25 @@ public class Fazenda {
         return fazenda;
     }
 
+    public Lagar getLagar() {
+        return lagar;
+    }
+
+    private void verificaFila() {
+        if (lagar.getIsCapacidadeMaxima()) {
+            plantacoes.stream().forEach(plantacao -> {
+                plantacao.setEmEspera(true);
+
+            });
+        } else {
+            plantacoes.stream().forEach(plantacao -> {
+                plantacao.setEmEspera(false);
+
+            });
+        }
+        ;
+    }
+
     public void criaPlantacoes() {
 
         // Threads de plantação.
@@ -85,15 +107,19 @@ public class Fazenda {
             }
         });
 
+        new Thread(lagar, "Lagar").start();
+
         // Execução da produção.
         while (tempoProducaoMinutos < 2) {
 
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
 
-            if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
-                lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar, lagar.getNumeroReceptora()), "Processamento caminhão").start();
-            }
+            verificaFila();
+
+            // if (lagar.getTamanhoFila() > 0 && lagar.getEmProcessamento() <
+            // lagar.getCapacidadeRecepcaoLagar()) {
+            // new Thread(new Processamento(lagar), "Processamento caminhão").start();
+            // }
 
         }
 
@@ -102,27 +128,20 @@ public class Fazenda {
             {
                 plantacao.setProduzir(false);
             }
+
+            todasPlantacoesFinalizadas = true;
         });
 
-        while (lagar.getTamanhoFila() != 0 || !this.todasPlantacoesFinalizadas) {
+        // todasPlantacoesFinalizadas = verificaTodasPlantacoesFinalizadas();
+        // verificaTodasPlantacoesFinalizadas();
+        // while (!lagar.recepcaoVazia() || !todasPlantacoesFinalizadas) {
 
-            threads.stream().forEach(thread -> {
-                {
-                    if (!thread.getState().name().equals("TERMINATED")) {
-                        this.todasPlantacoesFinalizadas = false;
-                    }
-                }
-            });
+        // if (lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
+        // new Thread(new Processamento(lagar)).start();
+        // }
 
-            if (lagar.getEmProcessamento() < lagar.getCapacidadeRecepcaoLagar()) {
-                lagar.incrementaProcessamento();
-                new Thread(new Processamento(lagar, lagar.getNumeroReceptora())).start();
-            }
+        // }
 
-            this.todasPlantacoesFinalizadas = true;
-
-        }
-        System.out.println("################## FIM DA SIMULAÇÃO ##################");
     }
 
 }

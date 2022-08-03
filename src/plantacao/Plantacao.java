@@ -9,6 +9,7 @@ public class Plantacao implements Runnable {
     final private String variedadePlantacao;
     final private Integer distanciaLagarSegundos;
     private boolean produzir;
+    private boolean emEspera;
     private Lagar lagar;
 
     private Plantacao(Builder builder) {
@@ -17,6 +18,7 @@ public class Plantacao implements Runnable {
         this.distanciaLagarSegundos = builder.distanciaLagarSegundos;
         this.lagar = builder.lagar;
         this.produzir = true;
+        this.emEspera = false;
     }
 
     public static class Builder {
@@ -54,6 +56,10 @@ public class Plantacao implements Runnable {
 
     public void setProduzir(boolean produzir) {
         this.produzir = produzir;
+    }
+
+    public void setEmEspera(boolean emEspera) {
+        this.emEspera = emEspera;
     }
 
     public String getNomePlantacao() {
@@ -103,7 +109,7 @@ public class Plantacao implements Runnable {
                     e.printStackTrace();
                 }
 
-                if (produzir) {
+                if (!emEspera) {
                     System.out.println("Enviando caminhão de " + caminhao.getCapacidade()
                             + " toneladas da plantação " + this.nomePlantacao + " para o Lagar. Tempo de viagem: "
                             + getDistanciaLagarSegundos() + " segundos");
@@ -115,7 +121,7 @@ public class Plantacao implements Runnable {
                         e.printStackTrace();
                     }
 
-                    lagar.enfileraCaminhao(new Caminhao.Builder().plantacao(this).capacidade().cheio(false).build());
+                    lagar.enfileraCaminhao(caminhao);
                 }
 
                 i++;
@@ -124,10 +130,12 @@ public class Plantacao implements Runnable {
 
                 System.out.println("Plantação " + this.nomePlantacao + " em espera!");
                 // Esse bloco está 'parando' a produção da plantação.
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                synchronized (this) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
