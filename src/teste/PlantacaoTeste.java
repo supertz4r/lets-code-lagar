@@ -1,6 +1,7 @@
 package teste;
 
 import lagar.Lagar;
+import plantacao.Azeitonas;
 import plantacao.Plantacao;
 
 public class PlantacaoTeste {
@@ -10,7 +11,7 @@ public class PlantacaoTeste {
         Lagar lagar = new Lagar.Builder().build();;
 
         Plantacao plantacaoA = new Plantacao.Builder().nomePlantacao("G1")
-                .variedadePlantacao("Galega")
+                .variedadePlantacao(Azeitonas.GALEGA)
                 .distanciaLagarSegundos(4)
                 .lagar(lagar)
                 .build();

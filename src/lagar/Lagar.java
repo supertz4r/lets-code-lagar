@@ -7,24 +7,32 @@ import java.util.concurrent.BlockingQueue;
 
 import caminhao.Caminhao;
 import fazenda.Fazenda;
+import regras.RegrasLagar;
+import regras.VerificaRegras;
 
 public class Lagar implements Runnable {
 
-    private final Integer capacidadeFilaLagar = 12;
-    private final Integer capacidadeRecepcaoLagar = 3;
-    private final Integer capacidadeMinimaFilaLagar = 4;
-    private BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(capacidadeFilaLagar);
-    private boolean isCapacidadeMaxima = false;
-    private boolean isRecepcaoProcessada = false;
-    private Integer emProcessamento = 0;
-    private Integer toneladasRecebidas = 0;
+    private final Integer capacidadeFilaLagar;
+    private final Integer capacidadeRecepcaoLagar;
+    private final Integer capacidadeMinimaFilaLagar;
+    private BlockingQueue<Caminhao> filaCaminhoes;
+    private boolean isCapacidadeMaxima;
+    private boolean isRecepcaoProcessada;
+    private Integer emProcessamento;
+    private Integer toneladasRecebidas;
     private List<Caminhao> recepcao = new ArrayList<>();
+    private RegrasLagar regras;
 
     public Lagar(Builder builder) {
         this.filaCaminhoes = Builder.filaCaminhoes;
         this.isCapacidadeMaxima = builder.isCapacidadeMaxima;
         this.isRecepcaoProcessada = builder.isRecepcaoProcessada;
         this.emProcessamento = builder.emProcessamento;
+        this.capacidadeFilaLagar = builder.capacidadeFilaLagar;
+        this.capacidadeRecepcaoLagar = builder.capacidadeRecepcaoLagar;
+        this.capacidadeMinimaFilaLagar = builder.capacidadeMinimaFilaLagar;
+        this.toneladasRecebidas = builder.toneladasRecebidas;
+        this.regras = builder.regras;
         for (int i = 0; i < capacidadeRecepcaoLagar; i++) {
             recepcao.add(null);
         }
@@ -38,34 +46,21 @@ public class Lagar implements Runnable {
         return this.toneladasRecebidas;
     }
 
-    // Integer numeroReceptora = 0;
-
-    // for (int i = 0; i < capacidadeRecepcaoLagar; i++) {
-    // if (recepcao[i] == 0) {
-    // recepcao[i] = 1;
-    // numeroReceptora = i + 1;
-    // break;
-    // }
-    // }
-
-    // return numeroReceptora;
-
-    // }
-
     public synchronized Integer getCapacidadeMinimaLagar() {
         return capacidadeMinimaFilaLagar;
     }
 
-    // public synchronized void setRecepcao(Integer posicao) {
-    // recepcao[posicao - 1] = 0;
-    // }
-
     public static class Builder {
 
-        private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(12);
+        private static RegrasLagar regras = new VerificaRegras();
+        private static BlockingQueue<Caminhao> filaCaminhoes = new ArrayBlockingQueue<>(regras.getMaxCaminhoesNaFila());
         private boolean isCapacidadeMaxima = false;
         private boolean isRecepcaoProcessada = false;
         private Integer emProcessamento = 0;
+        private Integer toneladasRecebidas = 0;
+        private Integer capacidadeFilaLagar = regras.getMaxCaminhoesNaFila();
+        private Integer capacidadeRecepcaoLagar = regras.getCapacidadeRecepcaoLagar();
+        private Integer capacidadeMinimaFilaLagar = regras.getMinCaminhoesNaFila();
 
         public Builder filaCaminhoes() {
             return this;
@@ -88,7 +83,9 @@ public class Lagar implements Runnable {
         }
     }
 
-    // public Lagar(){}
+    public RegrasLagar getRegras() {
+        return regras;
+    }
 
     public List<Caminhao> getRecepcao() {
         return recepcao;
@@ -179,7 +176,6 @@ public class Lagar implements Runnable {
                             + caminhao.getPlantacao().getNomePlantacao()
                             + " foi para recepção do lagar e será processado.");
                     new Thread(new Processamento(this, caminhao)).start();
-                    ;
                     break;
 
                 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 import lagar.Lagar;
+import plantacao.Azeitonas;
 import plantacao.Plantacao;
 import regras.RegrasLagar;
 import regras.VerificaRegras;
@@ -15,7 +16,6 @@ public class Fazenda {
     private static Fazenda fazenda;
     private static boolean todasPlantacoesFinalizadas = false;
     final private long inicioProducao;
-    Double tempoEncherEsvaziarCaminhao;
     private List<Plantacao> plantacoes = new ArrayList<>();
     private List<Thread> threads = new ArrayList<>();
     private Lagar lagar = new Lagar.Builder().build();
@@ -27,11 +27,11 @@ public class Fazenda {
         IntStream.range(0, plantacoesInformacoes.size()).forEach((i) -> {
             IntStream.range(0, Integer.parseInt(plantacoesInformacoes.get(i).get("qtde")))
                     .forEach((plantacao) -> {
-                        String tipoAzeitona = plantacoesInformacoes.get(i).get("azeitona");
+                        String tipoAzeitona = plantacoesInformacoes.get(i).get("azeitona").toUpperCase();
                         int distanciaLagar = Integer.parseInt(plantacoesInformacoes.get(i).get("distancia"));
                         plantacoes.add(new Plantacao.Builder()
                                 .nomePlantacao(tipoAzeitona + " " + (plantacao + 1))
-                                .variedadePlantacao(tipoAzeitona)
+                                .variedadePlantacao(Azeitonas.valueOf(tipoAzeitona))
                                 .distanciaLagarSegundos(distanciaLagar)
                                 .lagar(lagar)
                                 .build());

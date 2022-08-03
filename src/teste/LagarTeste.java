@@ -3,6 +3,7 @@ package teste;
 import caminhao.Caminhao;
 import lagar.Lagar;
 import lagar.Processamento;
+import plantacao.Azeitonas;
 import plantacao.Plantacao;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class LagarTeste {
         Lagar lagar = new Lagar.Builder().build();
 
         Plantacao plantacaoA = new Plantacao.Builder().nomePlantacao("G1")
-                .variedadePlantacao("Galega")
+                .variedadePlantacao(Azeitonas.GALEGA)
                 .distanciaLagarSegundos(4)
                 .lagar(lagar)
                 .build();
@@ -63,6 +64,7 @@ public class LagarTeste {
         while (lagar.getTamanhoFila() > 0) {
             Caminhao caminhao = lagar.processaCaminhao();
             new Thread(new Processamento(lagar, caminhao)).start();
+            System.out.println(lagar.getTamanhoFila());
         }
     }
 

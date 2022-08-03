@@ -1,7 +1,10 @@
 package plantacao;
 
 public enum Azeitonas {
-    GALEGA,
-    CORDOVIL,
-    PICUAL;
+    GALEGA("GALEGA"),
+    CORDOVIL("CORDOVIL"),
+    PICUAL("PICUAL");
+
+    Azeitonas(String tipo) {
+    }
 }

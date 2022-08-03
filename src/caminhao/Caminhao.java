@@ -1,8 +1,6 @@
 package caminhao;
 
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import plantacao.Plantacao;
 import regras.RegrasLagar;
@@ -47,7 +45,6 @@ public class Caminhao {
         public Caminhao build() {
             return new Caminhao(this);
         }
-
     }
 
     public Plantacao getPlantacao() {
@@ -69,5 +66,4 @@ public class Caminhao {
     public Integer getCapacidade() {
         return capacidade;
     }
-
 }
