@@ -61,14 +61,15 @@ public class LagarTeste {
         caminhoes.forEach((caminhao) -> lagar.enfileraCaminhao(caminhao));
         System.out.printf("Tamanho da fila: %-10s%n", lagar.getTamanhoFila());
         while (lagar.getTamanhoFila() > 0) {
-            new Thread(new Processamento(lagar, lagar.getNumeroReceptora())).start();
+            Caminhao caminhao = lagar.processaCaminhao();
+            new Thread(new Processamento(lagar, caminhao)).start();
         }
     }
 
     private static void testeUmCaminhao(Lagar lagar, Caminhao c1) throws InterruptedException {
         lagar.enfileraCaminhao(c1);
         System.out.printf("Tamanho da fila: %-10s%n", lagar.getTamanhoFila());
-        Thread processa = new Thread(new Processamento(lagar, lagar.getNumeroReceptora()));
+        Thread processa = new Thread(new Processamento(lagar, c1));
         processa.start();
         synchronized (processa) {
             processa.wait();

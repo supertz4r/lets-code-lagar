@@ -1,18 +1,23 @@
 package caminhao;
 
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import plantacao.Plantacao;
+import regras.VerificaRegras;
 
 public class Caminhao {
     private Plantacao plantacao;
     private Integer capacidade;
     private Boolean cheio;
+    private  VerificaRegras regras;
 
     public Caminhao(Builder builder) {
         this.plantacao = builder.plantacao;
         this.capacidade = builder.capacidade;
         this.cheio = builder.cheio;
+        this.regras = builder.regras;
     }
 
     public static class Builder {
@@ -20,6 +25,7 @@ public class Caminhao {
         private Plantacao plantacao;
         private Integer capacidade;
         private Boolean cheio;
+        private VerificaRegras regras = new VerificaRegras();
 
         public Builder plantacao(Plantacao plantacao) {
             this.plantacao = plantacao;
@@ -27,7 +33,8 @@ public class Caminhao {
         }
 
         public Builder capacidade() {
-            this.capacidade = new Random().ints(4, 16).findFirst().getAsInt();
+            int[] rangeCapacidade = regras.getRangeCapacidadeCaminhao();
+            this.capacidade = new Random().ints(rangeCapacidade[0], rangeCapacidade[1]).findFirst().getAsInt();
             return this;
         }
 
