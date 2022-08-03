@@ -1,6 +1,7 @@
 package lagar;
 
 import caminhao.Caminhao;
+import output.Relatorio;
 
 import java.util.Map;
 
@@ -8,10 +9,12 @@ public class Processamento implements Runnable {
 
     private Lagar lagar;
     private Caminhao caminhao;
+    private Relatorio relatorio;
 
-    public Processamento(Lagar lagar, Caminhao caminhao) {
+    public Processamento(Lagar lagar, Caminhao caminhao, Relatorio relatorio) {
         this.lagar = lagar;
-        this.caminhao = caminhao;
+        this.caminhao = caminhao; 
+        this.relatorio = relatorio;
     }
 
     @Override
@@ -42,6 +45,13 @@ public class Processamento implements Runnable {
             System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
                     + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
                     + " descarregou em " + tempoDescarregamento + " e foi liberado!");
+
+            relatorio.adicionaLinha(
+                    caminhao.getCapacidade(), //valorToneladas
+                    caminhao.getPlantacao().getVariedadePlantacao(), //tipoAzeitona
+                    numeroRecepcao, //numeroRecepcao
+                    caminhao.getPlantacao().getNomePlantacao(), //origemPlantacao
+                    tempoDescarregamento); //totalDeSegundos
 
             lagar.setCapacidadeMaxima(false);
         }

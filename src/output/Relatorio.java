@@ -3,6 +3,8 @@ package output;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,48 +12,60 @@ import regras.VerificaRegras;
 
 public class Relatorio {
 
-    private VerificaRegras regras = new VerificaRegras();
-    private String ano = String.valueOf(regras.getDataArquivo().getYear());
-    private String data = String.valueOf(regras.getDataArquivo().getDayOfMonth()) + "/" + String.valueOf(regras.getDataArquivo().getMonthValue());
-    private String nomeRelatorio = "relatorio-yyyy.txt";
-    private String modeloLinha = "horarioFinal - toneladasAcumuladas >> valorToneladas toneladas de tipoAzeitona na recepção numeroRecepcao de origem da plantação origemPlantacao com tempo total de totalDeSegundos segundos.";
-
-
-    private List<String> linhas = new ArrayList<>();
+    private VerificaRegras regras;
+    private List<String> linhas;
+    private int toneladasAcumuladasCount = 0;
 
     public Relatorio() {
-        linhas.add(data);
-        linhas.add("");
+        this.regras = new VerificaRegras();
+        this.linhas = new ArrayList<>();
+        criaCabecalho();
     }
 
-    //refatorar para receber esses argumetos talvez em um array, ou em um map
-    public void adicionaLinha(String horarioFinal,
-            String toneladasAcumuladas, 
-            String valorToneladas, 
-            String tipoAzeitona, 
-            String numeroRecepcao,
-            String origemPlantacao,
-            String totalDeSegundos) {
+    private void criaCabecalho() {
+        String data = String.valueOf(this.regras.getDataArquivo().getDayOfMonth()) + "/"
+                        + String.valueOf(this.regras.getDataArquivo().getMonthValue());
+        this.linhas.add(data);
+        this.linhas.add("");
+    }
+
+    public void adicionaLinha(int valorToneladas, String tipoAzeitona, int numeroRecepcao, String origemPlantacao, int totalDeSegundos) {
+        String modeloLinha = "horarioFinal - toneladasAcumuladas >> valorToneladas toneladas de tipoAzeitona na recepção numeroRecepcao de origem da plantação origemPlantacao com tempo total de totalDeSegundos segundos.";
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String horarioFinal = new SimpleDateFormat("HH:mm:ss").format(timestamp.getTime());
+
+        this.toneladasAcumuladasCount += valorToneladas;
+        String toneladasAcumuladas = "0000" + String.valueOf(this.toneladasAcumuladasCount);
+        toneladasAcumuladas = toneladasAcumuladas.substring(toneladasAcumuladas.length() - 4);
 
         this.linhas.add(modeloLinha.replace("horarioFinal", horarioFinal)
                 .replace("toneladasAcumuladas", toneladasAcumuladas)
-                .replace("valorToneladas", valorToneladas)
+                .replace("valorToneladas", String.valueOf(valorToneladas))
                 .replace("tipoAzeitona", tipoAzeitona)
-                .replace("numeroRecepcao", numeroRecepcao)
+                .replace("numeroRecepcao", String.valueOf(numeroRecepcao))
                 .replace("origemPlantacao", origemPlantacao)
-                .replace("totalDeSegundos", totalDeSegundos));
+                .replace("totalDeSegundos", String.valueOf(totalDeSegundos)));
     }
     
     public void escreveRelatorio() throws IOException {
+        String nomeRelatorio = "relatorio-yyyy.txt";
+        String ano = String.valueOf(regras.getDataArquivo().getYear());
+        nomeRelatorio = nomeRelatorio.replace("yyyy", ano);
 
-        this.nomeRelatorio = nomeRelatorio.replace("yyyy", ano);
-        Path path = Path.of("src/output/" + this.nomeRelatorio);
-        Files.write(path, this.linhas);
-        
-        this.linhas.clear(); //limpa arraylist linhas
+        try {
+            Path path = Path.of("src/output/" + nomeRelatorio);
+            Files.write(path, this.linhas);
 
-        System.out.println("Relatorio criado\n\n");
-        System.out.println(Files.readString(path));
+            System.out.println("Relatorio criado\n\n");
+
+        } catch (IOException exception) {
+            System.out.println("Não foi possível criar o relatório:");
+            System.out.println(exception.getMessage());
+            System.out.println(exception.getStackTrace());
+        }
+
+        this.linhas.clear();
     }
 
 }

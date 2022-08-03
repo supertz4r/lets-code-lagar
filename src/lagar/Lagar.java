@@ -1,5 +1,6 @@
 package lagar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -7,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 
 import caminhao.Caminhao;
 import fazenda.Fazenda;
+import output.Relatorio;
 import regras.RegrasLagar;
 import regras.VerificaRegras;
 
@@ -22,6 +24,8 @@ public class Lagar implements Runnable {
     private Integer toneladasRecebidas;
     private List<Caminhao> recepcao = new ArrayList<>();
     private RegrasLagar regras;
+
+    private Relatorio relatorio = new Relatorio();
 
     public Lagar(Builder builder) {
         this.filaCaminhoes = Builder.filaCaminhoes;
@@ -175,7 +179,7 @@ public class Lagar implements Runnable {
                     System.out.println("### LAGAR - RECEPÇÃO ### | Caminhao vindo da fazenda "
                             + caminhao.getPlantacao().getNomePlantacao()
                             + " foi para recepção do lagar e será processado.");
-                    new Thread(new Processamento(this, caminhao)).start();
+                    new Thread(new Processamento(this, caminhao, relatorio)).start();
                     break;
 
                 }
@@ -195,6 +199,12 @@ public class Lagar implements Runnable {
             }
 
             if (Fazenda.isTodasPlantacoesFinalizadas() && recepcaoVazia()) {
+                try {
+                    relatorio.escreveRelatorio();
+                } catch (IOException exception) {
+                    System.out.println(exception.getMessage());
+                    System.out.println(exception.getStackTrace());
+                }
                 System.out.println("################## FIM DA SIMULAÇÃO ##################");
                 break;
             }
