@@ -205,7 +205,8 @@ public class Lagar implements Runnable {
                     System.out.println(exception.getMessage());
                     System.out.println(exception.getStackTrace());
                 }
-                System.out.println("################## FIM DA SIMULAÇÃO ##################");
+                System.out.println(
+                        "######################################### FIM DA SIMULAÇÃO #########################################");
                 break;
             }
 

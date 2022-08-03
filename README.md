@@ -68,18 +68,17 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
 - Padrões de projeto:
 
   - Singleton: Fazenda
-  - Builder: Plantacoes
+  - Builder: Plantacao; Caminhao;
 
 - Modelagem OO:
 
   - Packages
   - Interfaces
-  - Herança
-  - Polimorfismo
 
 - Streams:
 
   - VerificaRegras -> getAzeitonas
+  - Fazenda -> criaPlantacoes
 
 - Lambdas:
 
@@ -100,3 +99,7 @@ Deve então considerar data correta de 28/04/2022 tanto no arquivo de regras com
   - Relatorio -> adicionaLinha
 
 - Threads:
+
+- syncronized
+- wait
+- notifyAll
