@@ -118,7 +118,6 @@ public class Lagar implements Runnable {
     public synchronized void enfileraCaminhao(Caminhao caminhao) {
 
         while (filaCaminhoes.remainingCapacity() == 0) {
-            setCapacidadeMaxima(true);
             try {
                 System.out.println("### LAGAR - FILA CHEIA ### | Caminhão de " + caminhao.getCapacidade()
                         + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
@@ -168,6 +167,15 @@ public class Lagar implements Runnable {
         return true;
     }
 
+    private synchronized void comunicaPlantacoes() {
+        if (getTamanhoFila() <= this.capacidadeMinimaFilaLagar) {
+            setCapacidadeMaxima(false);
+            this.notifyAll();
+        } else if (getTamanhoFila() >= this.capacidadeFilaLagar) {
+            setCapacidadeMaxima(true);
+        }
+    }
+
     @Override
     public void run() {
         while (true) {
@@ -190,12 +198,7 @@ public class Lagar implements Runnable {
                     }
                 }
 
-                if (getTamanhoFila() <= this.capacidadeMinimaFilaLagar) {
-                    setCapacidadeMaxima(false);
-                } else if (getTamanhoFila() >= this.capacidadeFilaLagar) {
-                    setCapacidadeMaxima(true);
-                }
-
+                comunicaPlantacoes();
             }
 
             if (Fazenda.isTodasPlantacoesFinalizadas() && recepcaoVazia()) {
