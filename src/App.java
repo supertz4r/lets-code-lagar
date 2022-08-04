@@ -1,5 +1,11 @@
+import fazenda.Fazenda;
+
 public class App {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+
+    public static void main(String[] args) {
+        System.out.println(
+                "\n######################################### INICIO SIMULAÇÃO #########################################\n");
+        Fazenda.getInstance();
     }
+
 }
