@@ -115,25 +115,6 @@ public class Lagar implements Runnable {
         return filaCaminhoes.size();
     }
 
-    public synchronized void enfileraCaminhao(Caminhao caminhao) {
-
-        while (filaCaminhoes.remainingCapacity() == 0) {
-            try {
-                System.out.println("### LAGAR - FILA CHEIA ### | Caminhão de " + caminhao.getCapacidade()
-                        + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
-                        + " chegou no lagar e aguarda para entrar na fila!");
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        filaCaminhoes.add(caminhao);
-        System.out.println("### LAGAR - FILA ### | Caminhão de " + caminhao.getCapacidade()
-                + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
-                + " chegou no lagar e espera na fila!");
-
-    }
-
     public synchronized void incrementaProcessamento() {
         this.emProcessamento++;
     }
@@ -146,16 +127,16 @@ public class Lagar implements Runnable {
         return emProcessamento;
     }
 
-    public synchronized Caminhao processaCaminhao() {
+    public Integer getCapacidadeLagar() {
+        return capacidadeFilaLagar;
+    }
+
+    public synchronized Caminhao getCaminhaoRecepcao() {
         for (Caminhao caminhao : this.recepcao) {
             if (caminhao != null)
                 return caminhao;
         }
         return null;
-    }
-
-    public Integer getCapacidadeLagar() {
-        return capacidadeFilaLagar;
     }
 
     public boolean recepcaoVazia() {
@@ -167,38 +148,62 @@ public class Lagar implements Runnable {
         return true;
     }
 
-    private synchronized void comunicaPlantacoes() {
-        if (getTamanhoFila() <= this.capacidadeMinimaFilaLagar) {
-            setCapacidadeMaxima(false);
-            this.notifyAll();
-        } else if (getTamanhoFila() >= this.capacidadeFilaLagar) {
+    private void verificaTamanhoFila() {
+        if (getTamanhoFila() >= this.capacidadeFilaLagar) {
             setCapacidadeMaxima(true);
+        }
+    }
+
+    public void enfileraCaminhao(Caminhao caminhao) {
+
+        while (isCapacidadeMaxima
+                && filaCaminhoes.remainingCapacity() <= (capacidadeFilaLagar - capacidadeMinimaFilaLagar)) {
+
+            System.out.println("### LAGAR - FILA CHEIA ### | Caminhão de " + caminhao.getCapacidade()
+                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                    + " chegou no lagar e aguarda para entrar na fila!");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        filaCaminhoes.add(caminhao);
+        System.out.println("### LAGAR - FILA ### | Caminhão de " + caminhao.getCapacidade()
+                + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                + " chegou no lagar e espera na fila!");
+
+    }
+
+    private void processaCaminhao(int nRecepcao) {
+        Caminhao caminhao = this.filaCaminhoes.poll();
+        this.recepcao.set(nRecepcao, caminhao);
+
+        System.out.println("### LAGAR - RECEPÇÃO ### | Caminhao vindo da fazenda "
+                + caminhao.getPlantacao().getNomePlantacao()
+                + " foi para recepção do lagar e será processado.");
+        new Thread(new Processamento(this, caminhao, relatorio)).start();
+    }
+
+    private void liberaCaminhaoDaRecepcao(int nRecepcao) {
+        if (!this.recepcao.get(nRecepcao).isCheio()) {
+            this.recepcao.set(nRecepcao, null);
+            System.out.println("### LAGAR - RECEPÇÃO ### | Recepção " + nRecepcao + " vazia.");
         }
     }
 
     @Override
     public void run() {
         while (true) {
-            for (int i = 0; i < this.recepcao.size(); i++) {
-                if (!this.filaCaminhoes.isEmpty() && this.recepcao.get(i) == null) {
-                    Caminhao caminhao = this.filaCaminhoes.poll();
-                    this.recepcao.set(i, caminhao);
-
-                    System.out.println("### LAGAR - RECEPÇÃO ### | Caminhao vindo da fazenda "
-                            + caminhao.getPlantacao().getNomePlantacao()
-                            + " foi para recepção do lagar e será processado.");
-                    new Thread(new Processamento(this, caminhao, relatorio)).start();
+            for (int nRecepcao = 0; nRecepcao < this.recepcao.size(); nRecepcao++) {
+                if (!this.filaCaminhoes.isEmpty() && this.recepcao.get(nRecepcao) == null) {
+                    processaCaminhao(nRecepcao);
                     break;
-
                 }
-                if (this.recepcao.get(i) != null) {
-                    if (!this.recepcao.get(i).isCheio()) {
-                        this.recepcao.set(i, null);
-                        System.out.println("### LAGAR - RECEPÇÃO ### | Recepção " + i + " vazia.");
-                    }
+                if (this.recepcao.get(nRecepcao) != null) {
+                    liberaCaminhaoDaRecepcao(nRecepcao);
                 }
-
-                comunicaPlantacoes();
+                verificaTamanhoFila();
             }
 
             if (Fazenda.isTodasPlantacoesFinalizadas() && recepcaoVazia()) {

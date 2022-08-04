@@ -62,7 +62,7 @@ public class LagarTeste {
         caminhoes.forEach((caminhao) -> lagar.enfileraCaminhao(caminhao));
         System.out.printf("Tamanho da fila: %-10s%n", lagar.getTamanhoFila());
         while (lagar.getTamanhoFila() > 0) {
-            Caminhao caminhao = lagar.processaCaminhao();
+            Caminhao caminhao = lagar.getCaminhaoRecepcao();
             new Thread(new Processamento(lagar, caminhao, relatorio)).start();
             System.out.println(lagar.getTamanhoFila());
         }
