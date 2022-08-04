@@ -37,12 +37,9 @@ public class Fazenda {
                                 .build());
                     });
         });
+
         this.inicioProducao = System.currentTimeMillis();
         criaPlantacoes();
-    }
-
-    public static boolean isTodasPlantacoesFinalizadas() {
-        return todasPlantacoesFinalizadas;
     }
 
     public static Fazenda getInstance() {
@@ -52,47 +49,52 @@ public class Fazenda {
         return fazenda;
     }
 
+    public static boolean isTodasPlantacoesFinalizadas() {
+        return todasPlantacoesFinalizadas;
+    }
+
     public Lagar getLagar() {
         return lagar;
     }
 
-    private void verificaFila() {
-        if (lagar.getIsCapacidadeMaxima()) {
-            plantacoes.stream().forEach(plantacao -> {
-                plantacao.setEmEspera(true);
-            });
-        } else {
-            plantacoes.stream().forEach(plantacao -> {
-                plantacao.setEmEspera(false);
-            });
-        }
-    }
-
-    public void criaPlantacoes() {
-
-        // Threads de plantação.
+    private void iniciaThreads() {
+        // Threads de plantação e do lagar
         plantacoes.stream().forEach(plantacao -> {
             threads.add(new Thread(plantacao, "Plantação " + plantacao.getNomePlantacao()));
         });
-
-        long tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
-
-        // Inicialização das plantações.
         threads.stream().forEach(thread -> thread.start());
 
         new Thread(lagar, "Lagar").start();
+    }
 
-        // Execução da produção.
-        while (tempoProducaoMinutos < regras.getTempoExecucaoGeralMax()) {
-            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
-            verificaFila();
-        }
-
+    private void encerraProcucao() {
         // Notificação para encerrar a produção.
         plantacoes.stream().forEach(plantacao -> {
             plantacao.setProduzir(false);
             todasPlantacoesFinalizadas = true;
         });
+    }
+
+    private void rotinaDeProducao(Long tempoProducaoMinutos) {
+        // Execução da produção.
+        while (tempoProducaoMinutos < 2) {
+            tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+            if (lagar.getIsCapacidadeMaxima()) {
+                plantacoes.stream().forEach(plantacao -> plantacao.setEmEspera(true));
+            }
+            if (lagar.getIsCapacidadeMaxima() && lagar.getTamanhoFila() <= lagar.getCapacidadeMinimaLagar()) {
+                plantacoes.stream().forEach(plantacao -> plantacao.setEmEspera(false));
+                lagar.setCapacidadeMaxima(false);
+            }
+        }
+        encerraProcucao();
+    }
+
+    public void criaPlantacoes() {
+        iniciaThreads();
+        long tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
+        rotinaDeProducao(tempoProducaoMinutos);
+
     }
 
 }

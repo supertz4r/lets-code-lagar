@@ -13,8 +13,30 @@ public class Processamento implements Runnable {
 
     public Processamento(Lagar lagar, Caminhao caminhao, Relatorio relatorio) {
         this.lagar = lagar;
-        this.caminhao = caminhao; 
+        this.caminhao = caminhao;
         this.relatorio = relatorio;
+    }
+
+    private void logCaminhaoAProcessar(int numeroRecepcao) {
+        System.out
+                .println(
+                        "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " +
+                                caminhao.getCapacidade()
+                                + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                                + " começou a descarregar!");
+    }
+
+    private void logCaminhaoProcessado(int tempoDescarregamento) {
+        System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
+                + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
+                + " descarregou em " + tempoDescarregamento + " e foi liberado!");
+    }
+
+    private int calculaTempoDescarregamento() {
+        Map<String, Integer> tempoXToneladas = lagar.getRegras().getTempoXToneladas();
+        int ToneladasPorSegundo = tempoXToneladas.get("toneladas") / tempoXToneladas.get("tempo");
+
+        return caminhao.getCapacidade() / ToneladasPorSegundo;
     }
 
     @Override
@@ -23,15 +45,9 @@ public class Processamento implements Runnable {
             lagar.incrementaProcessamento();
 
             int numeroRecepcao = lagar.getRecepcao().indexOf(caminhao) + 1;
-            Map<String, Integer> tempoXToneladas = lagar.getRegras().getTempoXToneladas();
-            int ToneladasPorSegundo = tempoXToneladas.get("toneladas") / tempoXToneladas.get("tempo");
-            System.out
-                    .println(
-                            "### LAGAR - RECEPÇÃO #" + numeroRecepcao + " ### | Caminhão de " +
-                                    caminhao.getCapacidade()
-                                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
-                                    + " começou a descarregar!");
-            int tempoDescarregamento = caminhao.getCapacidade() / ToneladasPorSegundo;
+            logCaminhaoAProcessar(numeroRecepcao);
+
+            int tempoDescarregamento = calculaTempoDescarregamento();
 
             try {
                 Thread.sleep(tempoDescarregamento * 1000);
@@ -42,18 +58,15 @@ public class Processamento implements Runnable {
 
             lagar.setToneladasRecebidas(caminhao.getCapacidade());
 
-            System.out.println("### LAGAR - PROCESSAMENTO ### | Caminhão de " + caminhao.getCapacidade()
-                    + " toneladas da plantação " + caminhao.getPlantacao().getNomePlantacao()
-                    + " descarregou em " + tempoDescarregamento + " e foi liberado!");
+            logCaminhaoProcessado(tempoDescarregamento);
 
             relatorio.adicionaLinha(
-                    caminhao.getCapacidade(), //valorToneladas
-                    caminhao.getPlantacao().getVariedadePlantacao().toString(), //tipoAzeitona
-                    numeroRecepcao, //numeroRecepcao
-                    caminhao.getPlantacao().getNomePlantacao(), //origemPlantacao
-                    tempoDescarregamento); //totalDeSegundos
+                    caminhao.getCapacidade(), // valorToneladas
+                    caminhao.getPlantacao().getVariedadePlantacao().toString(), // tipoAzeitona
+                    numeroRecepcao, // numeroRecepcao
+                    caminhao.getPlantacao().getNomePlantacao(), // origemPlantacao
+                    tempoDescarregamento); // totalDeSegundos
 
-            lagar.setCapacidadeMaxima(false);
         }
         lagar.decrementaProcessamento();
     }
