@@ -83,7 +83,7 @@ public class Fazenda {
         new Thread(lagar, "Lagar").start();
 
         // Execução da produção.
-        while (tempoProducaoMinutos < 2) {
+        while (tempoProducaoMinutos < regras.getTempoExecucaoGeralMax()) {
             tempoProducaoMinutos = ((System.currentTimeMillis() - inicioProducao) / 60000);
             verificaFila();
         }

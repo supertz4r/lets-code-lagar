@@ -24,5 +24,5 @@ Configurações Gerais:
     Quando o lagar voltar a atingir 4 caminhões em espera, então as plantações podem enviar mais.
 
 Finalização:
-    Com 2 minutos de execução geral as plantações fecham a sua produção.
+    Com 3 minutos de execução geral as plantações fecham a sua produção.
     O lagar continua recebendo os caminhões que estão na fila ou que estejam a caminho.
